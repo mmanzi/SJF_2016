@@ -13,6 +13,7 @@ import rt.tonemappers.*;
 import rt.materials.*;
 
 import javax.vecmath.Matrix4f;
+import javax.vecmath.Point3f;
 import javax.vecmath.Vector3f;
 
 import org.omg.CORBA.TRANSACTION_MODE;
@@ -38,8 +39,8 @@ public class TeapotShadowTest extends Scene {
 		samplerFactory = new OneSamplerFactory();
 		
 		// Make camera and film
-		Vector3f eye = new Vector3f(0.f,0.f,2.f);
-		Vector3f lookAt = new Vector3f(0.f,0.f,0.f);
+		Point3f eye = new Point3f(0.f,0.f,2.f);
+		Point3f lookAt = new Point3f(0.f,0.f,0.f);
 		Vector3f up = new Vector3f(0.f,1.f,0.f);
 		float fov = 60.f;
 		int width = 256;

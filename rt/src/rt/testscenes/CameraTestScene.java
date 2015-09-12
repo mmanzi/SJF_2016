@@ -1,5 +1,6 @@
 package rt.testscenes;
 
+import javax.vecmath.Point3f;
 import javax.vecmath.Vector3f;
 
 import rt.*;
@@ -30,8 +31,8 @@ public class CameraTestScene extends Scene {
 		SPP = 1;
 		
 		// Specify which camera, film, and tonemapper to use
-		Vector3f eye = new Vector3f(0.5f, 0.5f, 3.f);
-		Vector3f lookAt = new Vector3f(0.5f, 0.f, 0.f);
+		Point3f eye = new Point3f(0.5f, 0.5f, 3.f);
+		Point3f lookAt = new Point3f(0.5f, 0.f, 0.f);
 		Vector3f up = new Vector3f(0.2f, 1.f, 0.f);
 		float fov = 60.f;
 		float aspect = 16.f/9.f;
