@@ -17,9 +17,9 @@ Some of the more advanced things you might want to consider adding are
 * Refractive/Reflecive materials and a Whitted integrator.
 * Speed up MeshTriangle intersections with the Moller-Trumbore intersection algorithm.
 * Add support for textures.
-..* First for rectangles, then for spheres and meshes.
-..* Implement bilinear interpolation for smoother textures.
-..* Also use textures as bump maps.
+  * First for rectangles, then for spheres and meshes.
+  * Implement bilinear interpolation for smoother textures.
+  * Also use textures as bump maps.
 * A more realistic camera model: The thin lens model.
 * Experiment with post processing, implement artistic films/tonemappers.
 * Experiment with materials, e. g. make a Tron-Like material.
@@ -27,8 +27,8 @@ Some of the more advanced things you might want to consider adding are
 
 
 ## Some possible results from previous years:
-![Fractal Sphere](results_2015/fractal_sphere.png)
-![Planet and Shuttle](results_2015/planet_and_shuttle.png)
-![Teapot and Shadow](results_2015/teapotShadow.png)
-![Refractive dragons](results_2015/refractive_dragon.png)
+<img src="results_2015/fractal_sphere.png" width="49%">
+<img src="results_2015/planet_and_shuttle.png" width="49%">
+<img src="results_2015/teapotShadow.png" width="49%">
+<img src="results_2015/refractive_dragon.png" width="49%">
 ![Depth of field dragons](results_2015/dof_dragons.png)
