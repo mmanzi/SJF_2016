@@ -9,17 +9,17 @@ import rt.util.StaticVecmath;
 
 public class Rectangle implements Intersectable {
 
-	protected Vector3f bottomLeft;
-	protected Vector3f top;
-	protected Vector3f right;
-	protected Vector3f normal;
+	private final Point3f bottomLeft;
+	private final Vector3f top;
+	private final Vector3f right;
+	private final Vector3f normal;
 	public Material material;
 	
-	public Rectangle(Vector3f bottomLeft, Vector3f right, Vector3f top)
+	public Rectangle(Point3f bottomLeft, Vector3f right, Vector3f top)
 	{
 		material = new Diffuse();
 		
-		this.bottomLeft = new Vector3f(bottomLeft);
+		this.bottomLeft = new Point3f(bottomLeft);
 		this.right = new Vector3f(right);
 		this.top = new Vector3f(top);
 		normal = new Vector3f();
@@ -31,7 +31,7 @@ public class Rectangle implements Intersectable {
 	{
 		material = new Diffuse();
 		
-		this.bottomLeft = new Vector3f(r.bottomLeft);
+		this.bottomLeft = new Point3f(r.bottomLeft);
 		this.right = new Vector3f(r.right);
 		this.top = new Vector3f(r.top);
 		this.normal = new Vector3f(r.normal);
