@@ -1,0 +1,34 @@
+# Ray Tracer SJF Skeleton
+
+A small skeleton for a raytracer used for educational purposes.
+The first few things that should be resolved are
+
+* Adding a movable camera
+* Extend the PointLightIntegrator to do some real shading.
+* Implement an intersectable sphere
+* Make it possible  to render glossy materials with the Blinn-Phong model.
+* Implement MeshTriangle intersection to enable rendering of meshes.
+* Implement instancing
+* Adding alternatives to the OneSampler (e. g. RandomSampler and UniformSampler).
+* Extend the existing integrators to render shadows.
+
+Some of the more advanced things you might want to consider adding are
+
+* Refractive/Reflecive materials and a Whitted integrator.
+* Speed up MeshTriangle intersections with the Moller-Trumbore intersection algorithm.
+* Add support for textures.
+..* First for rectangles, then for spheres and meshes.
+..* Implement bilinear interpolation for smoother textures.
+..* Also use textures as bump maps.
+* A more realistic camera model: The thin lens model.
+* Experiment with post processing, implement artistic films/tonemappers.
+* Experiment with materials, e. g. make a Tron-Like material.
+* Most importantly: *Make complex and nice looking scenes!*
+
+
+## Some possible results from previous years:
+![Fractal Sphere](results_2015/fractal_sphere.png)
+![Planet and Shuttle](results_2015/planet_and_shuttle.png)
+![Teapot and Shadow](results_2015/teapotShadow.png)
+![Refractive dragons](results_2015/refractive_dragon.png)
+![Depth of field dragons](results_2015/dof_dragons.png)
