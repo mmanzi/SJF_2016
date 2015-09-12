@@ -9,15 +9,25 @@ import java.util.concurrent.Future;
 import rt.Scene;
 import rt.util.ProgressBar;
 
+/**
+ * A multi threaded renderer that divides the output image into blocks and renders
+ * these blocks with multiple threads. The execution order goes from the bottom
+ * left of the image to the top right, rendering the rows first.
+ */
 public class MultiThreadedRenderer extends Renderer {
 
-	private final int taskSize;
-	private final int nrThreads;
+	/**
+	 * The size of a single task in pixels. Blocks of this size will be rendered in one task.
+	 */
+	private final int taskSize = 64;
+	
+	/**
+	 * Number of threads to be used, by default the number of available processors.
+	 */
+	private final int nrThreads = Runtime.getRuntime().availableProcessors();
 
 	public MultiThreadedRenderer(Scene scene) {
 		super(scene);
-		this.taskSize = 64;	// Each task renders a square image block of this size
-		this.nrThreads = Runtime.getRuntime().availableProcessors();	// Number of threads to be used for rendering
 	}
 	
 	protected void renderInternally() throws InterruptedException, ExecutionException {

@@ -26,7 +26,7 @@ public class ProgressBar {
 	 * Call this method whenever a task has finished computing.
 	 */
 	public void increment() {
-		int toPrint = (int) (nDoneTasks++/(float)nTasks*100);
+		int toPrint = (int) (++nDoneTasks/(float)nTasks*100);
 		for (; printed < toPrint; printed++) {
 			System.out.print("*");
 		}
