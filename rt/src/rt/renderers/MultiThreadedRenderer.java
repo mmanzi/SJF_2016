@@ -36,7 +36,7 @@ public class MultiThreadedRenderer extends Renderer {
 		int nTasks = (int)(Math.ceil(width/(double)taskSize) * Math.ceil(height/(double)taskSize));
 		ExecutorService executor = Executors.newFixedThreadPool(nrThreads);
 		
-		// Make render tasks, split image into blocks to be rendered by the tasks
+		// Make render tasks, split image into blocks to be rendered by the tasks.
 		ArrayList<Future<?>> futures = new ArrayList<>(nTasks);
 		for(int j=0; j < Math.ceil(height/(float)taskSize); j++) {
 			for(int i=0; i < Math.ceil(width/(float)taskSize); i++) {
@@ -46,7 +46,7 @@ public class MultiThreadedRenderer extends Renderer {
 			}
 		}
 		ProgressBar progressBar = new ProgressBar(nTasks);
-		// Wait for threads to end
+		// Wait for threads to end.
 		executor.shutdown();
 		for (Future<?> f: futures) {
 			f.get();

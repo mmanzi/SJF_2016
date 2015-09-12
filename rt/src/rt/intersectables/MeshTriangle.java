@@ -47,6 +47,7 @@ public class MeshTriangle implements Intersectable {
 		float z1 = vertices[v1*3+2];
 		float z2 = vertices[v2*3+2];
 		
+		// TODO: Return a hitrecord if the ray intersects this triangle, null otherwise.
 		return null;
 	}
 
