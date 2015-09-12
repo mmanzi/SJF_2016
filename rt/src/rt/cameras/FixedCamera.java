@@ -1,6 +1,7 @@
 package rt.cameras;
 
 import javax.vecmath.Matrix4f;
+import javax.vecmath.Point3f;
 import javax.vecmath.Vector3f;
 import javax.vecmath.Vector4f;
 
@@ -12,7 +13,7 @@ import rt.Ray;
  */
 public class FixedCamera implements Camera {
 
-	Vector3f eye;
+	Point3f eye;
 	Matrix4f m;
 	
 	/**
@@ -26,7 +27,7 @@ public class FixedCamera implements Camera {
 	public FixedCamera(int width, int height)
 	{
 		// Fixed eye position in world coordinates
-		eye = new Vector3f(0.f, 0.f, 3.0f);
+		eye = new Point3f(0.f, 0.f, 3.0f);
 		
 		// Fixed camera to world transform, just a translation
 		Matrix4f c = new Matrix4f();
@@ -86,7 +87,7 @@ public class FixedCamera implements Camera {
 		// Make ray consisting of origin and direction in world coordinates
 		Vector3f dir = new Vector3f();
 		dir.sub(new Vector3f(d.x, d.y, d.z), eye);
-		Ray r = new Ray(new Vector3f(eye), dir);
+		Ray r = new Ray(new Point3f(eye), dir);
 		return r;
 	}
 
