@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import rt.Scene;
 import rt.util.Timer;
@@ -14,7 +17,16 @@ public abstract class Renderer {
 
 	protected final Scene scene;
 
+	protected BufferedImage image;
+	protected JFrame jf;
+	protected JLabel label;
+	
 	public Renderer(Scene scene) {
+		jf = new JFrame("Raytracer");
+		label = new JLabel();
+		jf.setSize(scene.getFilm().getWidth(),scene.getFilm().getHeight());
+		jf.setLocationRelativeTo(null);
+	    jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		this.scene = scene;
 	}
 		
@@ -30,8 +42,23 @@ public abstract class Renderer {
 		// The call to the renderer implementation. Here is where real work gets done.
 		renderInternally();
 		
+		//output image to screen for convenience
+		updateFrame();
+		
 		System.out.println();
 		timer.printElapsedTimeToConsole("Image computed in");
+	}
+	
+	/**
+	 * Updates the shown frame
+	 */
+	protected void updateFrame(){
+		image = scene.getTonemapper().process(scene.getFilm());
+		jf.remove(label);
+		label =  new JLabel(new ImageIcon(image));    
+		jf.add(label);
+		jf.repaint();
+	    jf.setVisible(true);
 	}
 	
 	/**

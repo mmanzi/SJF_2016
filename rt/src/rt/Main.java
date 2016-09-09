@@ -18,7 +18,8 @@ public class Main {
 	{			
 		scene.prepare();
 		// There are multiple renderer implementations, check out the package 'rt.renderers'.
-		Renderer renderer = new SingleThreadedRenderer(scene);
+		//Renderer renderer = new SingleThreadedRenderer(scene);
+		Renderer renderer = new MultiThreadedRenderer(scene);
 		renderer.render();
 		renderer.writeImageToFile();
 	}
