@@ -1,5 +1,7 @@
 package rt.intersectables;
 
+import javax.vecmath.Matrix3f;
+
 import rt.HitRecord;
 import rt.Intersectable;
 import rt.Ray;
@@ -28,7 +30,7 @@ public class MeshTriangle implements Intersectable {
 	
 	public HitRecord intersect(Ray r)
 	{
-		float vertices[] = mesh.vertices;
+		float vertices[] = mesh.vertices;	
 		
 		// Access the triangle vertices as follows (same for the normals):		
 		// 1. Get three vertex indices for triangle
@@ -36,18 +38,29 @@ public class MeshTriangle implements Intersectable {
 		int v1 = mesh.indices[index*3+1];
 		int v2 = mesh.indices[index*3+2];
 		
-		// 2. Access x,y,z coordinates for each vertex
-		float x0 = vertices[v0*3];
-		float x1 = vertices[v1*3];
-		float x2 = vertices[v2*3];
-		float y0 = vertices[v0*3+1];
-		float y1 = vertices[v1*3+1];
-		float y2 = vertices[v2*3+1];
-		float z0 = vertices[v0*3+2];
-		float z1 = vertices[v1*3+2];
-		float z2 = vertices[v2*3+2];
+		
+		Matrix3f m = new Matrix3f();
+		
+		//// 2. Access x,y,z coordinates for each vertex
+		
+		m.m00 = vertices[v0*3];
+		m.m01 = vertices[v1*3];
+		m.m02 = vertices[v2*3];
+		m.m10 = vertices[v0*3+1];
+		m.m11 = vertices[v1*3+1];
+		m.m12 = vertices[v2*3+1];
+		m.m20 = vertices[v0*3+2];
+		m.m21 = vertices[v1*3+2];
+		m.m22 = vertices[v2*3+2];
 		
 		// TODO: Return a hitrecord if the ray intersects this triangle, null otherwise.
+		
+		
+		
+		
+		//rodo: compute intersection with cramers rule on barycentric coordinates
+		//given an intersection point, check is it valid? is t positive
+		// given valid intersection compute stuff for hitRecord (t, normal, intersection-position, direction from intersection to eye normalized(eye - pos)
 		return null;
 	}
 
