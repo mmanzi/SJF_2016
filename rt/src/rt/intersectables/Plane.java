@@ -39,7 +39,7 @@ public class Plane implements Intersectable {
 
 	public HitRecord intersect(Ray r) {
 
-		float tmp = normal.dot(r.direction);
+		float tmp = normal.dot(r.direction); //
 
 		if (tmp != 0) {
 			float t = -(normal.dot(new Vector3f(r.origin)) + d) / tmp;

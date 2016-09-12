@@ -1,7 +1,12 @@
 package rt.integrators;
 
+import javax.vecmath.Point3f;
+import javax.vecmath.Vector3f;
+
+import rt.HitRecord;
 import rt.Integrator;
 import rt.Intersectable;
+import rt.LightGeometry;
 import rt.LightList;
 import rt.Ray;
 import rt.Sampler;
@@ -15,11 +20,13 @@ public class PointLightIntegrator implements Integrator {
 
 	LightList lightList;
 	Intersectable root;
+	Scene scene;
 	
 	public PointLightIntegrator(Scene scene)
 	{
 		this.lightList = scene.getLightList();
 		this.root = scene.getIntersectable();
+		this.scene = scene;
 	}
 
 	/**
@@ -29,8 +36,29 @@ public class PointLightIntegrator implements Integrator {
 	 */
 	public Spectrum integrate(Ray r) {
 		Spectrum outgoing = new Spectrum(0.f, 0.f, 0.f);	
-		// TODO: Check if ray intersects with any objects. If it does, do some appropriate shading.
-		return outgoing;	
+		
+		HitRecord hitRecord = root.intersect(r);
+		
+		if (hitRecord != null) {
+			for(int i = 0; i < lightList.size(); i++) {
+				HitRecord lightHit = lightList.get(i).sample(null);
+				Point3f lp = lightHit.position;
+				Vector3f wOut = new Vector3f(
+						hitRecord.position.x - lp.x, 
+						hitRecord.position.y - lp.y,
+						hitRecord.position.z - lp.z);
+				wOut.normalize();
+				Spectrum light_color = lightHit.material.evaluateEmission(lightHit, wOut);	
+				wOut.negate();
+				float ndo = Math.max(0.f, hitRecord.normal.dot(wOut));
+				light_color.mult(ndo);
+				light_color.mult(hitRecord.material.evaluateBRDF(hitRecord, hitRecord.w, wOut));
+				outgoing.add(light_color);
+			}
+			return outgoing;
+		} else {
+			return new Spectrum(0.f, 0.f, 0.f);
+		}
 	}
 
 	public float[][] makePixelSamples(Sampler sampler, int n) {

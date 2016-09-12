@@ -22,7 +22,7 @@ public class PointLight implements LightGeometry {
 	}
 	
 	/**
-	 * A ray never hit a point.
+	 * A ray never hits a point.
 	 */
 	public HitRecord intersect(Ray r) {
 		return null;
