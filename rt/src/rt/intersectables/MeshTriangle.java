@@ -1,11 +1,15 @@
 package rt.intersectables;
 
 import javax.vecmath.Matrix3f;
+import javax.vecmath.Point3f;
+import javax.vecmath.Vector3f;
 
 import rt.HitRecord;
 import rt.Intersectable;
 import rt.Ray;
+import rt.Spectrum;
 import rt.accelerators.AxisAlignedBox;
+import rt.materials.Diffuse;
 
 /**
  * Defines a triangle by referring back to a {@link Mesh}
@@ -16,6 +20,8 @@ public class MeshTriangle implements Intersectable {
 	private Mesh mesh;
 	private int index;
 	
+	private Vector3f normal;
+	
 	/**
 	 * Make a triangle.
 	 * 
@@ -25,7 +31,8 @@ public class MeshTriangle implements Intersectable {
 	public MeshTriangle(Mesh mesh, int index)
 	{
 		this.mesh = mesh;
-		this.index = index;		
+		this.index = index;
+		
 	}
 	
 	public HitRecord intersect(Ray r)
@@ -39,29 +46,110 @@ public class MeshTriangle implements Intersectable {
 		int v2 = mesh.indices[index*3+2];
 		
 		
-		Matrix3f m = new Matrix3f();
 		
-		//// 2. Access x,y,z coordinates for each vertex
 		
-		m.m00 = vertices[v0*3];
-		m.m01 = vertices[v1*3];
-		m.m02 = vertices[v2*3];
-		m.m10 = vertices[v0*3+1];
-		m.m11 = vertices[v1*3+1];
-		m.m12 = vertices[v2*3+1];
-		m.m20 = vertices[v0*3+2];
-		m.m21 = vertices[v1*3+2];
-		m.m22 = vertices[v2*3+2];
+		// 2. Access x,y,z coordinates for each vertex
+		float a0 = vertices[v0*3];
+		float a1 = vertices[v0*3+1];
+		float a2 = vertices[v0*3+2];
+		float b0 = vertices[v1*3];
+		float b1 = vertices[v1*3+1];
+		float b2 = vertices[v1*3+2];
+		float c0 = vertices[v2*3];
+		float c1 = vertices[v2*3+1];
+		float c2 = vertices[v2*3+2];
+		
+
+		/*float a0 = vertices[v0*3];
+		float a1 = vertices[v1*3];
+		float a2 = vertices[v2*3];
+		float b0 = vertices[v0*3+1];
+		float b1 = vertices[v1*3+1];
+		float b2 = vertices[v2*3+1];
+		float c0 = vertices[v0*3+2];
+		float c1 = vertices[v1*3+2];
+		float c2 = vertices[v2*3+2];*/
+		
+		
+		Vector3f s1 = new Vector3f(a0-b0,a1-b1,a2-b2);
+		Vector3f s2 = new Vector3f(a0-c0,a1-c1,a2-c2);
+		
+		Vector3f s3 = new Vector3f(a0-r.origin.x,a1-r.origin.y,a2-r.origin.z);
+		
+		Matrix3f f0 = new Matrix3f();
+		f0.setColumn(0, s1);
+		f0.setColumn(1, s2);
+		f0.m02 = r.direction.x;
+		f0.m12 = r.direction.y;
+		f0.m22 = r.direction.z;
+		
+		Matrix3f f1 = new Matrix3f(f0);
+		f1.setColumn(0, s3);
+		
+		Matrix3f f2 = new Matrix3f(f0);
+		f2.setColumn(1, s3);
+		
+		Matrix3f f3 = new Matrix3f(f0);
+		f3.setColumn(2, s3);
+		
+	
+		float beta = f1.determinant()/f0.determinant();
+		float gamma = f2.determinant()/f0.determinant();
+		float t = f3.determinant()/f0.determinant();
+		
+		if(gamma>=0){
+			int blub = 1;
+			blub=2*blub;
+		}
+		if(beta>=0){
+			int blub = 1;
+			blub=2*blub;
+		}
+		
+		if(beta+gamma <= 1 && beta >= 0 && gamma >= 0 && t > 0){
+			
+			Point3f position = r.pointAt(t);
+			
+			Vector3f wIn = new Vector3f(r.direction);
+			wIn.negate();
+			wIn.normalize();
+			
+			float normals[] = mesh.normals;	
+			float na0 = normals[v0*3];
+			float na1 = normals[v0*3+1];
+			float na2 = normals[v0*3+2];
+			float nb0 = normals[v1*3];
+			float nb1 = normals[v1*3+1];
+			float nb2 = normals[v1*3+2];
+			float nc0 = normals[v2*3];
+			float nc1 = normals[v2*3+1];
+			float nc2 = normals[v2*3+2];
+			
+			Vector3f na = new Vector3f(na0,na1,na2);
+			Vector3f nb = new Vector3f(nb0,nb1,nb2);
+			Vector3f nc = new Vector3f(nc0,nc1,nc2);
+			Vector3f normal = new Vector3f();
+			na.scale(1-gamma-beta);
+			nb.scale(beta);
+			nc.scale(gamma);
+			
+			normal.add(na,nb);
+			normal.add(nc);
+	
+			return new HitRecord(t,  position, normal, wIn, this, new Diffuse(new Spectrum(1.f, 1.f, 1.f)), 0.f, 0.f);
+		}else{
+			return null;
+		}
 		
 		// TODO: Return a hitrecord if the ray intersects this triangle, null otherwise.
 		
 		
 		
 		
-		//rodo: compute intersection with cramers rule on barycentric coordinates
+		//TODO: compute intersection with cramers rule on barycentric coordinates
 		//given an intersection point, check is it valid? is t positive
 		// given valid intersection compute stuff for hitRecord (t, normal, intersection-position, direction from intersection to eye normalized(eye - pos)
-		return null;
+		
 	}
 
 	@Override

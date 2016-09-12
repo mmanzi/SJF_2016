@@ -68,7 +68,7 @@ public class Mesh extends Aggregate {
 		boundingBox = new AxisAlignedBox(min, max);
 		for(int i=0; i<indices.length/3; i++) {
 			MeshTriangle triangle = new MeshTriangle(this, i);
-			boundingBox = boundingBox.unionWith(triangle.getBoundingBox());
+			boundingBox = rt.accelerators.AxisAlignedBox.INFINITE_BOUNDING_BOX;//boundingBox.unionWith(triangle.getBoundingBox());
 			triangles[i] = triangle;
 		}
 	}
