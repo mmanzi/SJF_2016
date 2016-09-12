@@ -19,7 +19,7 @@ public class Ray {
 	public Point3f pointAt(float t) 
 	{
 		Point3f p = new Point3f(direction);
-		p.scaleAdd(t, origin);
+		p.scaleAdd(t, origin); //t*p + origin //p=d, origin=e
 		return p;
 	}
 }

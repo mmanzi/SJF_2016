@@ -12,7 +12,7 @@ public class Main {
 	/** 
 	 * The scene to be rendered. Change at will.
 	 */
-	public static Scene scene = new CameraTestScene();
+	public static Scene scene = new SphereTest();
 	
 	public static void main(String[] args) throws InterruptedException, ExecutionException, FileNotFoundException, UnsupportedEncodingException
 	{			
