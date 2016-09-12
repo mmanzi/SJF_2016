@@ -12,8 +12,10 @@ public class Main {
 	/** 
 	 * The scene to be rendered. Change at will.
 	 */
+
 	public static Scene scene = new SphereTest();
-	
+	//public static Scene scene = new TriangleTest();
+
 	public static void main(String[] args) throws InterruptedException, ExecutionException, FileNotFoundException, UnsupportedEncodingException
 	{			
 		scene.prepare();
