@@ -97,17 +97,16 @@ public class MeshTriangle implements Intersectable {
 		float gamma = f2.determinant()/f0.determinant();
 		float t = f3.determinant()/f0.determinant();
 		
-		if(gamma>=0){
-			int blub = 1;
-			blub=2*blub;
-		}
-		if(beta>=0){
-			int blub = 1;
-			blub=2*blub;
-		}
+		//if(beta+gamma <= 1 && beta >= 0 && gamma >= 0){
+		//	System.out.println(t);
+		//}
+	
 		
-		if(beta+gamma <= 1 && beta >= 0 && gamma >= 0 && t > 0){
+		
+		
+		if(beta+gamma <= 1 && beta >= 0 && gamma >= 0 && t>=0){
 			
+		//	System.out.println("hello");
 			Point3f position = r.pointAt(t);
 			
 			Vector3f wIn = new Vector3f(r.direction);
