@@ -9,7 +9,7 @@ import rt.films.*;
 import rt.integrators.*;
 import rt.intersectables.*;
 import rt.lightsources.PointLight;
-import rt.materials.Diffuse;
+import rt.materials.*;
 import rt.samplers.*;
 import rt.tonemappers.*;
 
@@ -25,14 +25,23 @@ public class SphereTest extends Scene {
 		outputFilename = new String("../output/testscenes/SphereTest");
 		
 		// Image width and height in pixels
-		width = 512;
-		height = 512;
+		width = 1080;
+		height = 1080;
 		
 		// Number of samples per pixel
 		SPP = 1;
 		
 		// Specify which camera, film, and tonemapper to use
+		float fov = 60.f;
+		float aspect = 9.f/9.f;
+		
+		Point3f eye = new Point3f(0.f, 0.f, 1.f);
+		Point3f lookAt = new Point3f(0.f, 0.f, 0.f);
+		Vector3f up = new Vector3f(0.0f, -1.f, 0.f);
+		
 		camera = new FixedCamera(600, 600);
+		camera = new PinholeCamera(eye, lookAt, up, fov, aspect, width, height);
+		
 		film = new BoxFilterFilm(width, height);
 		tonemapper = new ClampTonemapper();
 		
@@ -43,15 +52,16 @@ public class SphereTest extends Scene {
 					
 		IntersectableList iList = new IntersectableList();
 		
-		Sphere s1 = new Sphere(new Point3f(0, 0.f, 0.75f), 2.f);
-		s1.material = new Diffuse(new Spectrum(1f, 1f, 0.f));
-		Plane p1 = new Plane(new Vector3f(0.f, 1.f, 0.f), 1.f);
-		iList.add(s1);
-	//	iList.add(p1);
+		Sphere s1 = new Sphere(new Point3f(0.f, 0.f, -3.f), 0.5f);
+		s1.material = new Phong(new Spectrum(1f, 1f, 0.f),new Spectrum(0.5f, 0.5f, 0.5f),new Spectrum(0f, 0f, 0.f), 64);
+		Plane p1 = new Plane(new Vector3f(0.f, 0.f, 1.f), -1.f);
+		p1.material = new Diffuse(new Spectrum(1f, 0.f, 0.f));
+		//iList.add(s1);
+		iList.add(p1);
 		
 		this.root = iList;
 		
-		LightGeometry pointLight = new PointLight(new Vector3f(0.f, 0.f, 2.5f), new Spectrum(2.f, 2.f, 2.f));
+		LightGeometry pointLight = new PointLight(new Vector3f(0.f, 1.f, -4f), new Spectrum(1000.f, 1000.f, 10.f));
 		lightList = new LightList();
 		lightList.add(pointLight);
 	}

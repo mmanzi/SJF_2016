@@ -47,7 +47,7 @@ public class CameraTestScene extends Scene {
 		tonemapper = new ClampTonemapper();
 		
 		// Specify which integrator and sampler to use
-		integratorFactory = new TrivialIntegratorFactory();
+		integratorFactory = new PointLightIntegratorFactory();
 		samplerFactory = new OneSamplerFactory();
 	//	samplerFactory = new RandomSamplerFactory();	
 		
@@ -61,11 +61,15 @@ public class CameraTestScene extends Scene {
 	//	Plane p4 = new Plane(new Vector3f(0.f, -1.f, 0.f), 1.f);
 	//	Plane p5 = new Plane(new Vector3f(0.f, 0.f, 1.f), 1.f);
 		
+		Sphere s1 = new Sphere(new Point3f(0.f, 0.f, 0f), 0.5f);
+		s1.material = new Diffuse(new Spectrum(1f, 1f, 0.f));
+		
 		IntersectableList iList = new IntersectableList();
 		// Some planes are left out
 		iList.add(p1);
 		iList.add(p2);
 		iList.add(p3);
+		iList.add(s1);;
 		//iList.add(p4);
 		//iList.add(p5);
 		

@@ -1,5 +1,6 @@
 package rt.integrators;
 
+import javax.swing.JOptionPane;
 import javax.vecmath.Point3f;
 import javax.vecmath.Vector3f;
 
@@ -49,10 +50,14 @@ public class PointLightIntegrator implements Integrator {
 						hitRecord.position.z - lp.z);
 				wOut.normalize();
 				Spectrum light_color = lightHit.material.evaluateEmission(lightHit, wOut);	
-				wOut.negate();
-				float ndo = Math.max(0.f, hitRecord.normal.dot(wOut));
-				light_color.mult(ndo);
-				light_color.mult(hitRecord.material.evaluateBRDF(hitRecord, hitRecord.w, wOut));
+				//wOut.negate(); //WHY not negate?????
+				light_color.mult(hitRecord.material.evaluateBRDF(hitRecord, wOut, hitRecord.w));
+				
+				Vector3f p_min_v = new Vector3f(lp.x - hitRecord.position.x, lp.y - hitRecord.position.y, lp.z - hitRecord.position.z);
+				float distanceToLightSquared = p_min_v.lengthSquared();
+				
+				light_color.mult(1.f/distanceToLightSquared);
+				
 				outgoing.add(light_color);
 			}
 			return outgoing;

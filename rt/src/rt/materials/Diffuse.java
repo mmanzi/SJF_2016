@@ -42,7 +42,10 @@ public class Diffuse implements Material {
 	 *  @param hitRecord hit record to be used
 	 */
 	public Spectrum evaluateBRDF(HitRecord hitRecord, Vector3f wOut, Vector3f wIn) {
-		return new Spectrum(kd/*ndo*/);
+		float ndo = Math.max(0.f, hitRecord.normal.dot(wOut));
+		Spectrum kdr = new Spectrum(kd);
+		kdr.mult(ndo);
+		return new Spectrum(kdr);
 	}
 
 	public boolean hasSpecularReflection()

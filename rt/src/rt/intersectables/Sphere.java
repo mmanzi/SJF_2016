@@ -39,15 +39,15 @@ public class Sphere implements Intersectable {
 	public HitRecord intersect(Ray r) {
 		Point3f e = r.origin;
 		Point3f ce = center;
-		
-		Vector3f d = r.direction;	
-		d.scale(2);
+	
+
 		Vector3f e_min_c = new Vector3f(e.x-ce.x, e.y-ce.y,e.z-ce.z);
 		
-		Vector3f d2 = r.direction;
-		float a = d2.dot(d2);
+		Vector3f d = r.direction;
+		d.normalize();
 		
-		float b = d.dot(e_min_c);
+		float a = d.dot(d);
+		float b = 2.f*d.dot(e_min_c);
 		float c = e_min_c.dot(e_min_c) - radius*radius;
 		
 		float root = b*b-4*a*c;
