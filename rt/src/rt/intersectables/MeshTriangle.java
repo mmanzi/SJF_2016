@@ -135,7 +135,7 @@ public class MeshTriangle implements Intersectable {
 			normal.add(na,nb);
 			normal.add(nc);
 	
-			return new HitRecord(t,  position, normal, wIn, this, new Diffuse(new Spectrum(1.f, 1.f, 1.f)), 0.f, 0.f);
+			return new HitRecord(t,  position, normal, wIn, this, mesh.material, 0.f, 0.f);
 		}else{
 			return null;
 		}

@@ -39,7 +39,7 @@ public class SphereTest extends Scene {
 		Point3f lookAt = new Point3f(0.f, 0.f, 0.f);
 		Vector3f up = new Vector3f(0.0f, -1.f, 0.f);
 		
-		camera = new FixedCamera(600, 600);
+		//camera = new FixedCamera(600, 600);
 		camera = new PinholeCamera(eye, lookAt, up, fov, aspect, width, height);
 		
 		film = new BoxFilterFilm(width, height);
@@ -56,12 +56,12 @@ public class SphereTest extends Scene {
 		s1.material = new Phong(new Spectrum(1f, 1f, 0.f),new Spectrum(0.5f, 0.5f, 0.5f),new Spectrum(0f, 0f, 0.f), 64);
 		Plane p1 = new Plane(new Vector3f(0.f, 0.f, 1.f), -1.f);
 		p1.material = new Diffuse(new Spectrum(1f, 0.f, 0.f));
-		//iList.add(s1);
-		iList.add(p1);
+		iList.add(s1);
+		//iList.add(p1);
 		
 		this.root = iList;
 		
-		LightGeometry pointLight = new PointLight(new Vector3f(0.f, 1.f, -4f), new Spectrum(1000.f, 1000.f, 10.f));
+		LightGeometry pointLight = new PointLight(new Vector3f(0.f, 1.f, -4f), new Spectrum(10.f, 10.f, 10.f));
 		lightList = new LightList();
 		lightList.add(pointLight);
 	}
