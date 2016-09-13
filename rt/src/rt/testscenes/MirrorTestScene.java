@@ -37,10 +37,13 @@ public class MirrorTestScene extends Scene {
 		integratorFactory = new WhittedIntegratorFactory();
 		
 		// Specify pixel sampler to be used
-		samplerFactory = new OneSamplerFactory();
+		//samplerFactory = new OneSamplerFactory();
+		
+		SPP = 16;
+		samplerFactory = new GridSamplerFactory();
 		
 		// Make camera and film
-		Point3f eye = new Point3f(0.f,0.5f,9.f);
+		Point3f eye = new Point3f(0.f,0.0f,9.f);
 		Point3f lookAt = new Point3f(0.f,0.f,0.f);
 		Vector3f up = new Vector3f(0.f,1.f,0.f);
 		float fov = 120.f;
@@ -80,7 +83,7 @@ public class MirrorTestScene extends Scene {
 		try
 		{
 			
-			mesh = ObjReader.read("../obj/teapot.obj", 0.5f);
+			mesh = ObjReader.read("../obj/teapot.obj", 0.7f);
 			mesh.material=new Mirrored(new Spectrum(1.f,0.5f,0.5f));
 		} catch(IOException e) 
 		{

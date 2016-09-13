@@ -23,7 +23,7 @@ public class WhittedIntegrator implements Integrator {
 	Intersectable root;
 	Scene scene;
 	
-	private static final int MAX_BOUNCES = 1;
+	private static final int MAX_BOUNCES = 5;
 	
 	public WhittedIntegrator(Scene scene)
 	{
