@@ -24,7 +24,11 @@ public class RandomSampler implements Sampler {
 	public float[][] makeSamples(int n, int d)
 	{
 		float samples[][] = new float[n][d];		
-		// TODO: Generate random samples.
+		for(int i = 0;i < samples.length;i++){
+			for(int e = 0;e < samples[0].length;e++){
+				samples[i][e] = (float) Math.random();
+			}
+		}
 		return samples;
 	}
 	

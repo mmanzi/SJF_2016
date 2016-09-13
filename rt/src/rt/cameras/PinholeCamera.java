@@ -77,8 +77,8 @@ public class PinholeCamera implements Camera {
 		// TODO: Create a ray that originates in eye and goes through pixel (i, j) with offset given from sample[]. 
 		// HINT: Make sure the direction of the ray is normalized.
 		
-		float u = (float) (-t + (2*t)*((i+0.5)/width));
-		float v = (float) (-r + (2*r)*((j+0.5)/height));
+		float u = (float) (-t + (2*t)*((i+sample[0])/width));
+		float v = (float) (-r + (2*r)*((j+sample[1])/height));
 		
 		/*Vector3f p = new Vector3f();
 		

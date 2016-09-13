@@ -45,7 +45,7 @@ public class TriangleTest extends Scene {
 		
 		// Specify which integrator and sampler to use
 		integratorFactory = new PointLightIntegratorFactory();
-		samplerFactory = new OneSamplerFactory();
+		samplerFactory = new GridSamplerFactory();
 			
 		// Make a triangle. Note: convention is that vertex order is counter
 		// clockwise when triangle is seen from outside (outside is by convention
@@ -63,7 +63,7 @@ public class TriangleTest extends Scene {
 		Mesh mesh;
 		try
 		{
-			mesh = ObjReader.read("../obj/male.obj", 0.5f);
+			mesh = ObjReader.read("../obj/teapot.obj", 0.5f);
 		} catch(IOException e) 
 		{
 			System.out.printf("Could not read .obj file\n");
@@ -88,7 +88,7 @@ public class TriangleTest extends Scene {
 		//intersectableList.add(s1);
 		//intersectableList.add(p1);
 		
-		PointLight light = new PointLight(new Vector3f(0.f, 0.f, 3.f), new Spectrum(.5f,.5f,.5f));
+		PointLight light = new PointLight(new Vector3f(0.f, 0.f, 3.f), new Spectrum(2.f,2.f,2.f));
 		lightList = new LightList();
 		lightList.add(light);
 		
