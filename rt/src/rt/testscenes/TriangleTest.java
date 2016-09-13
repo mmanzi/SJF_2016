@@ -24,14 +24,14 @@ public class TriangleTest extends Scene {
 		outputFilename = new String("../output/testscenes/TriangleTest");
 		
 		// Image width and height in pixels
-		width = 1024;
-		height = 1024;
+		width = 512;
+		height = 512;
 		
 		// Number of samples per pixel
-		SPP = 1;
+		SPP = 10;
 		
 		// Specify which camera, film, and tonemapper to use
-		Point3f eye = new Point3f(0.f, 0.f, 1.f);
+		Point3f eye = new Point3f(0.f, 0.f, 3.f);
 		Point3f lookAt = new Point3f(0.f, 0.f, 0.f);
 		Vector3f up = new Vector3f(0.f, 1.f, 0.f);
 		float fov = 90.f;
@@ -45,7 +45,7 @@ public class TriangleTest extends Scene {
 		
 		// Specify which integrator and sampler to use
 		integratorFactory = new ShadowIntegratorFactory();
-		samplerFactory = new OneSamplerFactory();
+		samplerFactory = new GridSamplerFactory();
 			
 		// Make a triangle. Note: convention is that vertex order is counter
 		// clockwise when triangle is seen from outside (outside is by convention
@@ -64,7 +64,7 @@ public class TriangleTest extends Scene {
 		try
 		{
 			mesh = ObjReader.read("../obj/teapot.obj", 0.35f);
-			mesh.material = new Phong(new Spectrum(1.f,1.f,0.f), new Spectrum(10.f, 10.f,0.5f), new Spectrum(0.f,0.f,0.f), 50); //not supported
+			mesh.material = new Phong(new Spectrum(1.f,1.f,0.f), new Spectrum(10.f, 10.f,0.5f), new Spectrum(0.f,0.f,0.f), 50);
 		} catch(IOException e) 
 		{
 			System.out.printf("Could not read .obj file\n");
@@ -75,8 +75,8 @@ public class TriangleTest extends Scene {
 		//p1.material = new Phong(new Spectrum(0.5f, 0.5f, 0.5f), new Spectrum(1.f, 1.f, 1.f), new Spectrum(0.f, 0.f, 0.f), 128);
 		p1.material = new Procedural(new Spectrum(1f, 1f, 1f), new Spectrum(0f, 0f, 0f));
 		
-		Rectangle rec = new Rectangle(new Point3f(-0.5f,-0.5f,-2.f), new Vector3f(-0.5f,0.f,-0.f), new Vector3f(0.f,-0.5f,-0.f));
-		rec.material=new Phong(new Spectrum(1.f,0.f,1.f), new Spectrum(0.f, 0.5f,0.f), new Spectrum(0.f,0.f,0.f), 128);
+		//Rectangle rec = new Rectangle(new Point3f(-0.5f,-0.5f,-2.f), new Vector3f(-0.5f,0.f,-0.f), new Vector3f(0.f,-0.5f,-0.f));
+		//rec.material=new Phong(new Spectrum(1.f,0.f,1.f), new Spectrum(0.f, 0.5f,0.f), new Spectrum(0.f,0.f,0.f), 128);
 		//Sphere s1 = new Sphere(new Point3f(0,0,-3), 1);
 		//s1.material = new Diffuse(new Spectrum(0,1,1));
 		
@@ -87,7 +87,7 @@ public class TriangleTest extends Scene {
 		
 		IntersectableList intersectableList = new IntersectableList();
 		intersectableList.add(mesh);
-		intersectableList.add(rec);
+		//intersectableList.add(rec);
 		//intersectableList.add(s1);
 		intersectableList.add(p1);
 		
