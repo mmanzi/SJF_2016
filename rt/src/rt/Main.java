@@ -1,3 +1,4 @@
+
 package rt;
 
 import rt.basicscenes.*;
@@ -13,8 +14,8 @@ public class Main {
 	 * The scene to be rendered. Change at will.
 	 */
 
-	//public static Scene scene = new SphereTest();
-	public static Scene scene = new TriangleTest();
+	public static Scene scene = new SphereTest();
+	//public static Scene scene = new TriangleTest();
 	//public static Scene scene = new CameraTestScene();
 	
 
@@ -29,3 +30,4 @@ public class Main {
 	}
 	
 }
+
