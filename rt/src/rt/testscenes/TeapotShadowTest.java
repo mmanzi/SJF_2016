@@ -43,8 +43,8 @@ public class TeapotShadowTest extends Scene {
 		Point3f lookAt = new Point3f(0.f,0.f,0.f);
 		Vector3f up = new Vector3f(0.f,1.f,0.f);
 		float fov = 120.f;
-		int width = 512;
-		int height = 512;
+		int width = 1024;
+		int height = 1024;
 		float aspect = (float)width/(float)height;
 		camera = new PinholeCamera(eye, lookAt, up, fov, aspect, width, height);
 		film = new BoxFilterFilm(width, height);						

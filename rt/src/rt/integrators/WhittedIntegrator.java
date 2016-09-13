@@ -48,6 +48,7 @@ public class WhittedIntegrator implements Integrator {
 			
 			if(hitRecord.material.hasSpecularReflection() && r.bounces < WhittedIntegrator.MAX_BOUNCES){
 				
+				//Handles reflection
 				Vector3f wIn = hitRecord.w;
 				Vector3f n = hitRecord.normal;
 				Vector3f wOut = new Vector3f();
@@ -61,11 +62,15 @@ public class WhittedIntegrator implements Integrator {
 				Ray r2 = new Ray(hitRecord.position, wOut);
 				r2.bounces = r.bounces+1;
 				outgoing = new Spectrum(hitRecord.material.evaluateSpecularReflection(hitRecord).brdf);
-				//outgoing = hitRecord.material.evaluateSpecularReflection(hitRecord).brdf;
 				outgoing.mult(integrate(r2));
 				
-			}else if(hitRecord.material.hasSpecularReflection() && r.bounces == WhittedIntegrator.MAX_BOUNCES){
+			}else if(hitRecord.material.hasSpecularRefraction() && r.bounces == WhittedIntegrator.MAX_BOUNCES){
 				
+				//TODO: Handle refraction
+				Vector3f wIn = hitRecord.w;
+				Vector3f n = hitRecord.normal;
+				
+				Vector3f wOut = new Vector3f();
 				
 			}else{
 				
