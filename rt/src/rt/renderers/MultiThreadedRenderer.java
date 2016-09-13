@@ -1,15 +1,10 @@
 package rt.renderers;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 import rt.Scene;
 import rt.util.ProgressBar;
@@ -51,22 +46,12 @@ public class MultiThreadedRenderer extends Renderer {
 			}
 		}
 		ProgressBar progressBar = new ProgressBar(nTasks);
-		
 		// Wait for threads to end.
 		executor.shutdown();
-		long startTime = System.currentTimeMillis();
-
 		for (Future<?> f: futures) {
 			f.get();
 			progressBar.increment();
-			
-			//update intermediate results every 1 second
-			if(System.currentTimeMillis() - startTime>1000){
-				updateFrame();
-			    startTime = System.currentTimeMillis();
-			}
 		}
-		
 	}
 	
 	protected String rendererMessage() {

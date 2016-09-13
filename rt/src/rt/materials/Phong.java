@@ -5,12 +5,14 @@ import javax.vecmath.Vector3f;
 import rt.*;
 
 /**
- * A basic diffuse material.
+ * Blinn-Phong Shading
  */
-public class Diffuse implements Material {
+public class Phong implements Material {
 
 	Spectrum kd;
-	
+	Spectrum ks;
+	Spectrum ka;
+	int s;
 	/**
 	 * Note that the parameter value {@param kd} is the diffuse reflectance,
 	 * which should be in the range [0,1], a value of 1 meaning all light
@@ -19,19 +21,23 @@ public class Diffuse implements Material {
 	 * 
 	 * @param kd the diffuse reflectance
 	 */
-	public Diffuse(Spectrum kd)
+	public Phong(Spectrum kd, Spectrum ks, Spectrum ka, int s)
 	{
 		this.kd = new Spectrum(kd);
+		this.ks = new Spectrum(ks);
+		this.ka = new Spectrum(ka);
+		this.s = s;
 		// Normalize
 		this.kd.mult(1/(float)Math.PI);
+		this.ks.mult(1/(float)Math.PI);
+		this.ka.mult(1/(float)Math.PI);
 	}
 	
 	/**
-	 * Default diffuse material with reflectance (1,1,1).
-	 */
-	public Diffuse()
+	 *
+	 **/
+	public Phong()
 	{
-		this(new Spectrum(1.f, 1.f, 1.f));
 	}
 
 	/**
@@ -45,6 +51,18 @@ public class Diffuse implements Material {
 		float ndo = Math.max(0.f, hitRecord.normal.dot(wOut));
 		Spectrum kdr = new Spectrum(kd);
 		kdr.mult(ndo);
+		
+		Vector3f h = wOut;
+		h.add(wIn);
+		//h.scale(1.f/(wOut.length() + wIn.length()));
+		h.normalize();
+		
+		float hdo = (float)Math.pow(h.dot(hitRecord.normal), s);
+		Spectrum c = new Spectrum(ks);
+		c.mult(hdo);
+		c.add(ka);
+		kdr.add(c);
+		
 		return new Spectrum(kdr);
 	}
 

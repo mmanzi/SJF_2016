@@ -23,6 +23,7 @@ public class TrivialIntegrator implements Integrator {
 		HitRecord hitRecord = scene.getIntersectable().intersect(r);
 
 		if (hitRecord != null) {
+			//return new Spectrum(1.f, 1.f, 1.f);
 			// Only works with diffuse material
 			Spectrum color = hitRecord.material.evaluateBRDF(hitRecord, null,
 					null);
