@@ -61,7 +61,7 @@ public class SphereTest extends Scene {
 		
 		this.root = iList;
 		
-		LightGeometry pointLight = new PointLight(new Vector3f(0.f, 1.f, -4f), new Spectrum(10.f, 10.f, 10.f));
+		LightGeometry pointLight = new PointLight(new Vector3f(0.f, 1.f, 2.f), new Spectrum(10.f, 10.f, 10.f));
 		lightList = new LightList();
 		lightList.add(pointLight);
 	}

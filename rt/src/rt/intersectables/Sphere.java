@@ -51,7 +51,7 @@ public class Sphere implements Intersectable {
 		float c = e_min_c.dot(e_min_c) - radius*radius;
 		
 		float root = b*b-4*a*c;
-		if(root<0)
+		if(root<eps)
 			return null;
 		
 		float t1 = (-b + (float)Math.sqrt(root)) / (2*a);
