@@ -4,7 +4,7 @@
 **.png
 
 rt/src/rt/Main.java
-
+output/testscenes/*png
 *.pydevproject
 .metadata
 .gradle

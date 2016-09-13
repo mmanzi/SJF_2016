@@ -64,7 +64,7 @@ public class PinholeCamera implements Camera {
 		m.m23 = e.z;
 		m.m33 = 1;  //1 for point
 		
-		t = (float) Math.tan((double)Math.toRadians(fov/2.f));
+		t = (float) Math.tan((double)Math.toRadians(fov)/2.f);
 		r = aspect*t;
 		
 		m.invert();

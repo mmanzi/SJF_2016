@@ -3,6 +3,7 @@ package rt.testscenes;
 import java.io.IOException;
 
 import rt.*;
+import rt.accelerators.BSPAccelerator;
 import rt.cameras.*;
 import rt.films.*;
 import rt.integrators.*;
@@ -21,25 +22,25 @@ import org.omg.CORBA.TRANSACTION_MODE;
 /**
  * Test scene for instancing and rendering triangle meshes.
  */
-public class TeapotShadowTest extends Scene {
+public class MirrorTestScene extends Scene {
 
 	public IntersectableList objects;
 
 	/**
 	 * Timing: 8.5 sec on 12 core Xeon 2.5GHz, 24 threads
 	 */
-	public TeapotShadowTest()
+	public MirrorTestScene()
 	{	
 		outputFilename = new String("../output/testscenes/teapotShadow");
 		
 		// Specify integrator to be used
-		integratorFactory = new PointLightIntegratorFactory();
+		integratorFactory = new WhittedIntegratorFactory();
 		
 		// Specify pixel sampler to be used
 		samplerFactory = new OneSamplerFactory();
 		
 		// Make camera and film
-		Point3f eye = new Point3f(0.f,0.f,2.f);
+		Point3f eye = new Point3f(0.f,0.5f,9.f);
 		Point3f lookAt = new Point3f(0.f,0.f,0.f);
 		Vector3f up = new Vector3f(0.f,1.f,0.f);
 		float fov = 120.f;
@@ -80,13 +81,18 @@ public class TeapotShadowTest extends Scene {
 		{
 			
 			mesh = ObjReader.read("../obj/teapot.obj", 0.5f);
+			mesh.material=new Mirrored(new Spectrum(1.f,0.5f,0.5f));
 		} catch(IOException e) 
 		{
 			System.out.printf("Could not read .obj file\n");
 			return;
 		}
-		objects.add(mesh);	
-						
+		
+		
+		BSPAccelerator accel = new BSPAccelerator(mesh);
+		objects.add(accel);	
+	//	objects.add(mesh);	
+		
 		root = objects;
 		
 		// List of lights

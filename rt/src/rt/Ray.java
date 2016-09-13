@@ -9,11 +9,13 @@ public class Ray {
 
 	public Point3f origin;
 	public Vector3f direction;
+	public int bounces;
 	
 	public Ray(Point3f origin, Vector3f direction)
 	{
 		this.origin = new Point3f(origin); 
 		this.direction = new Vector3f(direction);
+		this.bounces = 0;
 	}
 	
 	public Point3f pointAt(float t) 

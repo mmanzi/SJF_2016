@@ -28,10 +28,10 @@ public class TriangleTest extends Scene {
 		height = 512;
 		
 		// Number of samples per pixel
-		SPP = 10;
+		SPP = 1;
 		
 		// Specify which camera, film, and tonemapper to use
-		Point3f eye = new Point3f(0.f, 0.f, 3.f);
+		Point3f eye = new Point3f(0.f, 0.f, 10.f);
 		Point3f lookAt = new Point3f(0.f, 0.f, 0.f);
 		Vector3f up = new Vector3f(0.f, 1.f, 0.f);
 		float fov = 90.f;
@@ -65,7 +65,7 @@ public class TriangleTest extends Scene {
 		{
 
 			mesh = ObjReader.read("../obj/teapot.obj", 0.5f);
-			//mesh.material = new Phong(new Spectrum(1.f,1.f,0.f), new Spectrum(10.f, 0.5f,0.5f), new Spectrum(0.f,0.f,0.f), 50); //not supported
+			mesh.material = new Phong(new Spectrum(1.f,1.f,0.f), new Spectrum(10.f, 0.5f,0.5f), new Spectrum(0.f,0.f,0.f), 50); //not supported
 
 		} catch(IOException e) 
 		{
@@ -73,9 +73,17 @@ public class TriangleTest extends Scene {
 			return;
 		}
 		
-		//Plane p1 = new Plane(new Vector3f(1.f, 0.f, 0.f), 1.f);
+		Plane p1 = new Plane(new Vector3f(0.f, 1.f, 0.f), 0.4f);
+		p1.material = new Diffuse(new Spectrum(1.f,0.f,0.f));
 		
-		//Rectangle rec = new Rectangle(new Point3f(-0.5f,-0.5f,-2.f), new Vector3f(-0.5f,0.f,-0.f), new Vector3f(0.f,-0.5f,-0.f));
+		Plane p2 = new Plane(new Vector3f(0.f, -1.f, 0.f), -0.4f);
+		p2.material = new Diffuse(new Spectrum(0.f,1.f,0.f));
+		
+		Plane p3 = new Plane(new Vector3f(0.f, 0.f, 1.f), 0.4f);
+		p3.material = new Diffuse(new Spectrum(0.f,0.f,1.f));
+		
+		
+		Rectangle rec = new Rectangle(new Point3f(-0.5f,-0.5f,-2.f), new Vector3f(-0.5f,0.f,-0.f), new Vector3f(0.f,-0.5f,-0.f));
 		//rec.material=new Phong(new Spectrum(1.f,0.f,1.f), new Spectrum(0.f, 0.5f,0.f), new Spectrum(0.f,0.f,0.f), 128);
 		//Sphere s1 = new Sphere(new Point3f(0,0,-3), 1);
 		//s1.material = new Diffuse(new Spectrum(0,1,1));
@@ -89,9 +97,11 @@ public class TriangleTest extends Scene {
 		intersectableList.add(mesh);
 		//intersectableList.add(rec);
 		//intersectableList.add(s1);
-		//intersectableList.add(p1);
+		intersectableList.add(p1);
+		intersectableList.add(p2);
+		intersectableList.add(p3);
 		
-		PointLight light =  new PointLight(new Vector3f(0.f, -3.f, -4f), new Spectrum(10.f, 10.f, 10.f));
+		PointLight light =  new PointLight(new Vector3f(0.f, 0.f, 2f), new Spectrum(10.f, 10.f, 10.f));
 
 		lightList = new LightList();
 		lightList.add(light);

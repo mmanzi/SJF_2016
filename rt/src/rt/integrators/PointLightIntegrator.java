@@ -50,7 +50,7 @@ public class PointLightIntegrator implements Integrator {
 						hitRecord.position.z - lp.z);
 				wOut.normalize();
 				Spectrum light_color = lightHit.material.evaluateEmission(lightHit, wOut);	
-				//wOut.negate(); //WHY not negate?????
+				wOut.negate(); //WHY not negate?????
 				light_color.mult(hitRecord.material.evaluateBRDF(hitRecord, wOut, hitRecord.w));
 				
 				Vector3f p_min_v = new Vector3f(lp.x - hitRecord.position.x, lp.y - hitRecord.position.y, lp.z - hitRecord.position.z);
