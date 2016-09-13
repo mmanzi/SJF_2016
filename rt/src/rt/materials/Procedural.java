@@ -14,7 +14,8 @@ public class Procedural implements Material {
 	Spectrum t1;
 	Spectrum t2;
 	Spectrum temp;
-	float scale = 2;
+	float scale;
+	int mal;
 	/**
 	 * Note that the parameter value {@param kd} is the diffuse reflectance,
 	 * which should be in the range [0,1], a value of 1 meaning all light
@@ -23,10 +24,12 @@ public class Procedural implements Material {
 	 * 
 	 * @param kd the diffuse reflectance
 	 */
-	public Procedural(Spectrum t1, Spectrum t2)
+	public Procedural(Spectrum t1, Spectrum t2, float scale, int mal)
 	{
 		this.t1 = new Spectrum(t1);
 		this.t2 = new Spectrum(t2);
+		this.scale = scale;
+		this.mal = mal;
 	}
 	
 	/**
@@ -46,9 +49,9 @@ public class Procedural implements Material {
 	public Spectrum evaluateBRDF(HitRecord hitRecord, Vector3f wOut, Vector3f wIn) {
 		float ndo = Math.max(0.f, hitRecord.normal.dot(wOut));
 		Spectrum kdr;
-		if(Math.floor(hitRecord.position.x * 10) % scale == 0) {
+		if(Math.floor(hitRecord.position.x * mal) % scale == 0) {
 			 kdr = new Spectrum(t2);
-		} else if(Math.floor(hitRecord.position.z * 10) % scale == 0) {
+		} else if(Math.floor(hitRecord.position.z * mal) % scale == 0) {
 			kdr = new Spectrum(t2);
 		} else {
 			 kdr = new Spectrum(t1);

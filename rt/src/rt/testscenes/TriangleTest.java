@@ -24,8 +24,8 @@ public class TriangleTest extends Scene {
 		outputFilename = new String("../output/testscenes/TriangleTest");
 		
 		// Image width and height in pixels
-		width = 512;
-		height = 512;
+		width = 1024;
+		height = 1024;
 		
 		// Number of samples per pixel
 		SPP = 10;
@@ -63,7 +63,7 @@ public class TriangleTest extends Scene {
 		Mesh mesh;
 		try
 		{
-			mesh = ObjReader.read("../obj/teapot.obj", 0.35f);
+			mesh = ObjReader.read("../obj/dragon.obj", 0.35f);
 			mesh.material = new Phong(new Spectrum(1.f,1.f,0.f), new Spectrum(10.f, 10.f,0.5f), new Spectrum(0.f,0.f,0.f), 50);
 		} catch(IOException e) 
 		{
@@ -73,7 +73,7 @@ public class TriangleTest extends Scene {
 		
 		Plane p1 = new Plane(new Vector3f(0.f, 1.f, 0.f), 0.45f);
 		//p1.material = new Phong(new Spectrum(0.5f, 0.5f, 0.5f), new Spectrum(1.f, 1.f, 1.f), new Spectrum(0.f, 0.f, 0.f), 128);
-		p1.material = new Procedural(new Spectrum(1f, 1f, 1f), new Spectrum(0f, 0f, 0f));
+		p1.material = new Procedural(new Spectrum(1f, 1f, 1f), new Spectrum(1f, 0f, 0f), 8, 200);
 		
 		//Rectangle rec = new Rectangle(new Point3f(-0.5f,-0.5f,-2.f), new Vector3f(-0.5f,0.f,-0.f), new Vector3f(0.f,-0.5f,-0.f));
 		//rec.material=new Phong(new Spectrum(1.f,0.f,1.f), new Spectrum(0.f, 0.5f,0.f), new Spectrum(0.f,0.f,0.f), 128);
@@ -86,7 +86,7 @@ public class TriangleTest extends Scene {
 
 		
 		IntersectableList intersectableList = new IntersectableList();
-		intersectableList.add(mesh);
+		//intersectableList.add(mesh);
 		//intersectableList.add(rec);
 		//intersectableList.add(s1);
 		intersectableList.add(p1);
@@ -95,8 +95,8 @@ public class TriangleTest extends Scene {
 		lightList = new LightList();
 		lightList.add(light);
 		
-		//BSPAccelerator accel = new BSPAccelerator(mesh);
-		//intersectableList.add(accel);
+		BSPAccelerator accel = new BSPAccelerator(mesh);
+		intersectableList.add(accel);
 		
 		root = intersectableList;
 	}
