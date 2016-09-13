@@ -6,6 +6,7 @@ import javax.vecmath.Point3f;
 import javax.vecmath.Vector3f;
 
 import rt.*;
+import rt.accelerators.BSPAccelerator;
 import rt.cameras.*;
 import rt.films.*;
 import rt.integrators.*;
@@ -62,8 +63,7 @@ public class TriangleTest extends Scene {
 		Mesh mesh;
 		try
 		{
-			
-			mesh = ObjReader.read("../obj/teapot.obj", 0.5f);
+			mesh = ObjReader.read("../obj/male.obj", 0.5f);
 		} catch(IOException e) 
 		{
 			System.out.printf("Could not read .obj file\n");
@@ -88,9 +88,12 @@ public class TriangleTest extends Scene {
 		//intersectableList.add(s1);
 		//intersectableList.add(p1);
 		
-		PointLight light = new PointLight(new Vector3f(0.f, 0.f, 3.f), new Spectrum(3.f,3.f,3.f));
+		PointLight light = new PointLight(new Vector3f(0.f, 0.f, 3.f), new Spectrum(.5f,.5f,.5f));
 		lightList = new LightList();
 		lightList.add(light);
+		
+		//BSPAccelerator accel = new BSPAccelerator(mesh);
+		//intersectableList.add(accel);
 		
 		root = intersectableList;
 	}

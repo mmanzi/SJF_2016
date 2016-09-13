@@ -153,8 +153,36 @@ public class MeshTriangle implements Intersectable {
 
 	@Override
 	public AxisAlignedBox getBoundingBox() {
-		// TODO Generate some useful bounding box
-		return null;
+		
+		float vertices[] = mesh.vertices;	
+		
+		// Access the triangle vertices as follows (same for the normals):		
+		// 1. Get three vertex indices for triangle
+		int v0 = mesh.indices[index*3];
+		int v1 = mesh.indices[index*3+1];
+		int v2 = mesh.indices[index*3+2];
+
+		// 2. Access x,y,z coordinates for each vertex
+		/*float a0 = vertices[v0*3];
+		float a1 = vertices[v0*3+1];
+		float a2 = vertices[v0*3+2];
+		float b0 = vertices[v1*3];
+		float b1 = vertices[v1*3+1];
+		float b2 = vertices[v1*3+2];
+		float c0 = vertices[v2*3];
+		float c1 = vertices[v2*3+1];
+		float c2 = vertices[v2*3+2];*/
+		
+		float smallestX = Math.min(vertices[v0*3], Math.min(vertices[v1*3], vertices[v2*3]));
+		float smallestY = Math.min(vertices[v0*3+1], Math.min(vertices[v1*3+1], vertices[v2*3+1]));
+		float smallestZ = Math.min(vertices[v0*3+2], Math.min(vertices[v1*3+2], vertices[v2*3+2]));
+		float largestX = Math.max(vertices[v0*3], Math.max(vertices[v1*3], vertices[v2*3]));
+		float largestY = Math.max(vertices[v0*3+1], Math.max(vertices[v1*3+1], vertices[v2*3+1]));
+		float largestZ = Math.max(vertices[v0*3+2], Math.max(vertices[v1*3+2], vertices[v2*3+2]));
+		
+		
+
+		return new AxisAlignedBox(new Point3f(smallestX, smallestY, smallestZ), new Point3f(largestX, largestY, largestZ));
 	}
 
 	@Override
