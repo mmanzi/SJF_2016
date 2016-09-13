@@ -7,6 +7,7 @@ import rt.accelerators.AxisAlignedBox;
  */
 public interface Intersectable {
 
+	final static float eps = 0.001f;
 	/**
 	 * Implement ray-surface intersection in this method. Implementations of this 
 	 * method need to make and return a {@link HitRecord} correctly, following

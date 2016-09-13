@@ -24,8 +24,8 @@ public class TriangleTest extends Scene {
 		outputFilename = new String("../output/testscenes/TriangleTest");
 		
 		// Image width and height in pixels
-		width = 512;
-		height = 512;
+		width = 1024;
+		height = 1024;
 		
 		// Number of samples per pixel
 		SPP = 1;
@@ -44,7 +44,7 @@ public class TriangleTest extends Scene {
 		tonemapper = new ClampTonemapper();
 		
 		// Specify which integrator and sampler to use
-		integratorFactory = new PointLightIntegratorFactory();
+		integratorFactory = new ShadowIntegratorFactory();
 		samplerFactory = new GridSamplerFactory();
 			
 		// Make a triangle. Note: convention is that vertex order is counter
@@ -64,8 +64,8 @@ public class TriangleTest extends Scene {
 		try
 		{
 
-			mesh = ObjReader.read("../obj/teapot.obj", 0.5f);
-			mesh.material = new Phong(new Spectrum(1.f,1.f,0.f), new Spectrum(10.f, 0.5f,0.5f), new Spectrum(0.f,0.f,0.f), 50); //not supported
+			mesh = ObjReader.read("../obj/dragon.obj", 0.35f);
+			mesh.material = new Phong(new Spectrum(1.f,1.f,0.f), new Spectrum(10.f, 10.f,0.5f), new Spectrum(0.f,0.f,0.f), 50);
 
 		} catch(IOException e) 
 		{
@@ -73,8 +73,11 @@ public class TriangleTest extends Scene {
 			return;
 		}
 		
-		Plane p1 = new Plane(new Vector3f(0.f, 1.f, 0.f), 0.4f);
-		p1.material = new Diffuse(new Spectrum(1.f,0.f,0.f));
+
+		Plane p1 = new Plane(new Vector3f(0.f, 1.f, 0.f), 0.45f);
+		//p1.material = new Phong(new Spectrum(0.5f, 0.5f, 0.5f), new Spectrum(1.f, 1.f, 1.f), new Spectrum(0.f, 0.f, 0.f), 128);
+		p1.material = new Procedural(new Spectrum(1f, 1f, 1f), new Spectrum(1f, 0f, 0f), 8, 200);
+
 		
 		Plane p2 = new Plane(new Vector3f(0.f, -1.f, 0.f), -0.4f);
 		p2.material = new Diffuse(new Spectrum(0.f,1.f,0.f));
@@ -88,26 +91,25 @@ public class TriangleTest extends Scene {
 		//Sphere s1 = new Sphere(new Point3f(0,0,-3), 1);
 		//s1.material = new Diffuse(new Spectrum(0,1,1));
 		
-		//Sphere s1 = new Sphere(new Point3f(0, 0.f, 0.75f), 1.95f);
-		//s1.material = new Diffuse(new Spectrum(1f, 1f, 0.f));
+		Sphere s1 = new Sphere(new Point3f(0, 1.f, -1.f), 0.42f);
+		s1.material = new Diffuse(new Spectrum(1f, 1f, 0.f));
 		
 
 		
 		IntersectableList intersectableList = new IntersectableList();
-		intersectableList.add(mesh);
+		//intersectableList.add(mesh);
 		//intersectableList.add(rec);
 		//intersectableList.add(s1);
 		intersectableList.add(p1);
-		intersectableList.add(p2);
-		intersectableList.add(p3);
+
 		
-		PointLight light =  new PointLight(new Vector3f(0.f, 0.f, 2f), new Spectrum(10.f, 10.f, 10.f));
+		PointLight light =  new PointLight(new Vector3f(0.f, 5.f, 2.f), new Spectrum(50.f, 50.f, 50.f));
 
 		lightList = new LightList();
 		lightList.add(light);
 		
-		//BSPAccelerator accel = new BSPAccelerator(mesh);
-		//intersectableList.add(accel);
+		BSPAccelerator accel = new BSPAccelerator(mesh);
+		intersectableList.add(accel);
 		
 		root = intersectableList;
 	}

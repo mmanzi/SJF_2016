@@ -61,7 +61,7 @@ public class Rectangle implements Intersectable {
 			wIn.negate();
 			wIn.normalize();
 			
-			if(t.x>0) 
+			if(t.x>eps) 
 				return new HitRecord(t.x, position, normal, wIn, this, material, t.y, t.z); 
 			else 
 				return null;

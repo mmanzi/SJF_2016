@@ -104,7 +104,7 @@ public class MeshTriangle implements Intersectable {
 		
 		
 		
-		if(beta+gamma <= 1 && beta >= 0 && gamma >= 0 && t>=0){
+		if(beta+gamma <= 1 && beta >= 0 && gamma >= 0 && t>=eps){
 			
 		//	System.out.println("hello");
 			Point3f position = r.pointAt(t);
