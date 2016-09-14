@@ -45,7 +45,7 @@ public class Diffuse implements Material {
 		float ndo = Math.max(0.f, hitRecord.normal.dot(wOut));
 		Spectrum kdr = new Spectrum(kd);
 		kdr.mult(ndo);
-		return new Spectrum(kdr);
+		return new Spectrum(kd);
 	}
 
 	public boolean hasSpecularReflection()

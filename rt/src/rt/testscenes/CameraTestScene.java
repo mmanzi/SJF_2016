@@ -47,15 +47,9 @@ public class CameraTestScene extends Scene {
 		tonemapper = new ClampTonemapper();
 		
 		// Specify which integrator and sampler to use
-<<<<<<< HEAD
-		integratorFactory = new TrivialIntegratorFactory();
-	//	samplerFactory = new OneSamplerFactory();
-		samplerFactory = new RandomSamplerFactory();	
-=======
 		integratorFactory = new PointLightIntegratorFactory();
 		samplerFactory = new OneSamplerFactory();
 	//	samplerFactory = new RandomSamplerFactory();	
->>>>>>> a5f0f0ab63911104c69f8a9b0f533bea5de4e26f
 		
 		// Define some objects to be added to the scene. 
 		// 5 planes can be used to define a box (with never ending walls).

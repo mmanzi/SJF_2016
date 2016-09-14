@@ -34,7 +34,7 @@ public class MirrorTestScene extends Scene {
 		outputFilename = new String("../output/testscenes/teapotShadow");
 		
 		// Specify integrator to be used
-		integratorFactory = new WhittedIntegratorFactory();
+		integratorFactory = new WhittedShadowIntegratorFactory();
 		
 		// Specify pixel sampler to be used
 		//samplerFactory = new OneSamplerFactory();
@@ -59,7 +59,7 @@ public class MirrorTestScene extends Scene {
 				
 		// Box
 		Plane plane = new Plane(new Vector3f(0.f, 1.f, 0.f), 1.f);
-		plane.material = new Diffuse(new Spectrum(0.f, 0.8f, 0.8f));
+		plane.material = new Diffuse(new Spectrum(1.f, 1.f, 1.f));
 		objects.add(plane);		
 		
 		plane = new Plane(new Vector3f(0.f, 0.f, 1.f), 1.f);

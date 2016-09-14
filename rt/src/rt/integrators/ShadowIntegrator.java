@@ -43,20 +43,15 @@ public class ShadowIntegrator implements Integrator {
 		if (hitRecord != null) {
 			for(int i = 0; i < lightList.size(); i++) {
 				HitRecord lightHit = lightList.get(i).sample(null);
-				
-				//check is the light visible from the hitRecord.position?
-				//if no: skip this light for this intersection
 				Vector3f direction = new Vector3f(hitRecord.position);
 				direction.sub(lightHit.position);
 				Ray rshadowRay = new Ray(hitRecord.position, direction);
 				rshadowRay.direction.negate();
-				//rshadowRay.origin.negate();
 				HitRecord ShadowhitRecord = root.intersect(rshadowRay);
 				if(ShadowhitRecord != null) {
 					if(ShadowhitRecord.t <= hitRecord.position.distance(lightHit.position) && !ShadowhitRecord.intersectable.equals(hitRecord.intersectable))
 						continue;
 				}
-				//check: is shadowHitRecord.t>=(light-hitRecord.position).length()
 				
 				Point3f lp = lightHit.position;
 				Vector3f wOut = new Vector3f(

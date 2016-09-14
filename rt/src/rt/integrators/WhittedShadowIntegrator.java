@@ -80,6 +80,7 @@ public class WhittedShadowIntegrator implements Integrator {
 					Vector3f direction = new Vector3f(hitRecord.position);
 					direction.sub(lightHit.position);
 					Ray rshadowRay = new Ray(hitRecord.position, direction);
+					rshadowRay.direction.normalize();
 					rshadowRay.direction.negate();
 					//rshadowRay.origin.negate();
 					HitRecord ShadowhitRecord = root.intersect(rshadowRay);
