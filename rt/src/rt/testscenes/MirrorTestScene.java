@@ -63,7 +63,7 @@ public class MirrorTestScene extends Scene {
 		objects.add(plane);		
 		
 		plane = new Plane(new Vector3f(0.f, 0.f, 1.f), 1.f);
-		plane.material = new Diffuse(new Spectrum(0.3f, 0.8f, 0.8f));
+		plane.material = new Procedural(new Spectrum(0.8f, 0.8f, 0.8f),new Spectrum(1.f, 0.f, 0.f), 3, 20);
 		objects.add(plane);
 		
 		plane = new Plane(new Vector3f(-1.f, 0.f, 0.f), 1.f);
@@ -78,18 +78,28 @@ public class MirrorTestScene extends Scene {
 		plane.material = new Diffuse(new Spectrum(0.8f, 0.8f, 0.8f));
 		objects.add(plane);
 		
+		plane = new Plane(new Vector3f(0.f, 0.f, -1.f), 10.f);
+		plane.material = new Diffuse(new Spectrum(100.8f, 0.8f, 0.8f));
+		objects.add(plane);
+		
 		// Add objects
 		Mesh mesh;
 		try
 		{
 			
 			mesh = ObjReader.read("../obj/teapot.obj", 0.7f);
-			mesh.material=new Mirrored(new Spectrum(1.f,0.5f,0.5f));
+			mesh.material=new Refractive(new Spectrum(1.f,0.5f,0.5f), 1.5f);
 		} catch(IOException e) 
 		{
 			System.out.printf("Could not read .obj file\n");
 			return;
 		}
+		
+		Sphere s = new Sphere(new Point3f(0.f,0.0f,0f), 0.4f);
+		s.material = new Refractive(new Spectrum(0.8f, 0.8f, 0.8f), 1.3f);
+	//	s.material = new Diffuse(new Spectrum(0.8f, 0.8f, 0.8f));
+	//    objects.add(s);
+		
 		
 		
 		BSPAccelerator accel = new BSPAccelerator(mesh);

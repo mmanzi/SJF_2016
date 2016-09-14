@@ -7,11 +7,11 @@ import rt.*;
 /**
  * A basic diffuse material.
  */
-public class Mirrored implements Material {
+public class Refractive implements Material {
 
 	Spectrum kd;
 	
-	
+	public float n1;
 	
 	/**
 	 * Note that the parameter value {@param kd} is the mirrored reflectance,
@@ -19,19 +19,25 @@ public class Mirrored implements Material {
 	 * is reflected , and none is absorbed. 
 	 * 
 	 * @param kd the mirrored reflectance
+	 * @param n1 the refractive index of the material
 	 */
-	public Mirrored(Spectrum kd)
+	public Refractive(Spectrum kd, float n1)
 	{
 		this.kd = kd;
+		this.n1 = n1;
+		
 	}
 	
+	
+	
 	/**
-	 * Default mirrored material with reflectance (1,1,1).
+	 * Default mirrored material with reflectance (1,1,1) and refractive index of 1.3
 	 */
-	public Mirrored()
+	public Refractive()
 	{
-		this(new Spectrum(1.f, 1.f, 1.f));
+		this(new Spectrum(1.f, 1.f, 1.f), 1.3f);
 	}
+
 
 	/**
 	 * Returns the recursively calculated value.
@@ -46,18 +52,16 @@ public class Mirrored implements Material {
 
 	public boolean hasSpecularReflection()
 	{
-		return true;
+		return false;
 	}
 	
 	public ShadingSample evaluateSpecularReflection(HitRecord hitRecord)
 	{
-		ShadingSample sample = new ShadingSample();
-		sample.brdf = new Spectrum(1.f,1.f,1.f);
-		return sample;
+		return null;
 	}
 	public boolean hasSpecularRefraction()
 	{
-		return false;
+		return true;
 	}
 
 	public ShadingSample evaluateSpecularRefraction(HitRecord hitRecord)
@@ -67,8 +71,8 @@ public class Mirrored implements Material {
 		return sample;
 	}
 	
-	public float getRefractiveIndex() {
-		return 0.f;                           //Returns 0 for no refraction
+	public float getRefractiveIndex(){
+		return n1;
 	}
 	
 	// To be implemented for path tracer!
@@ -89,8 +93,5 @@ public class Mirrored implements Material {
 	public ShadingSample getEmissionSample(HitRecord hitRecord, float[] sample) {
 		return new ShadingSample();
 	}
-
-
-	
 	
 }

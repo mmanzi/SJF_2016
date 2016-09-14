@@ -59,6 +59,12 @@ public class Textured implements Material {
 	public ShadingSample evaluateSpecularRefraction(HitRecord hitRecord) {
 		return null;
 	}
+	
+	@Override
+	public float getRefractiveIndex() {
+		return 0.f;                           //Returns 0 for no refraction
+	}
+	
 
 	@Override
 	public ShadingSample getShadingSample(HitRecord hitRecord, float[] sample) {

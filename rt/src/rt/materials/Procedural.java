@@ -154,7 +154,6 @@ public class Procedural implements Material {
 			//kdr.mult(value);
 			float test = interpolate(0, 1, value);
 			kdr.mult(new Spectrum(test, test, test));
-			
 		}
 		kdr.mult(ndo);
 		return new Spectrum(kdr);
@@ -178,6 +177,11 @@ public class Procedural implements Material {
 	{
 		return null;
 	}
+	
+	public float getRefractiveIndex() {
+		return 0.f;                           //Returns 0 for no refraction
+	}
+	
 	
 	// To be implemented for path tracer!
 	public ShadingSample getShadingSample(HitRecord hitRecord, float[] sample)

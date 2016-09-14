@@ -101,6 +101,7 @@ public class PinholeCamera implements Camera {
 		m.transform(s);
 		s.normalize();
 		Ray ray = new Ray(e, new Vector3f(s.x, s.y, s.z));
+		ray.pushStack(1.f); //TODO: how to handle camera inside material like water?
 		
 		return ray;
 	}
