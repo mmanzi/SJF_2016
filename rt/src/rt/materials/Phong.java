@@ -85,6 +85,11 @@ public class Phong implements Material {
 		return null;
 	}
 	
+	public float getRefractiveIndex() {
+		return 0.f;                           //Returns 0 for no refraction
+	}
+	
+	
 	// To be implemented for path tracer!
 	public ShadingSample getShadingSample(HitRecord hitRecord, float[] sample)
 	{

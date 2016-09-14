@@ -51,7 +51,7 @@ public class Procedural implements Material {
 		Spectrum kdr;
 		if(Math.floor(hitRecord.position.x * mal) % scale == 0) {
 			 kdr = new Spectrum(t2);
-		} else if(Math.floor(hitRecord.position.z * mal) % scale == 0) {
+		} else if(Math.floor(hitRecord.position.y * mal) % scale == 0) {
 			kdr = new Spectrum(t2);
 		} else {
 			 kdr = new Spectrum(t1);
@@ -78,6 +78,11 @@ public class Procedural implements Material {
 	{
 		return null;
 	}
+	
+	public float getRefractiveIndex() {
+		return 0.f;                           //Returns 0 for no refraction
+	}
+	
 	
 	// To be implemented for path tracer!
 	public ShadingSample getShadingSample(HitRecord hitRecord, float[] sample)

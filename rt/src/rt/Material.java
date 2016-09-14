@@ -28,6 +28,14 @@ public interface Material {
 		 */
 		public Vector3f w;
 		
+		
+		/**
+		 * Tells the integrator the refrative index
+		 */
+		
+		public float n1;
+		
+		
 		/**
 		 * Tells the integrator whether this is a specular sample. In this case,
 		 * a cosine factor in the specular BRDF should be omitted in the returned 
@@ -107,6 +115,9 @@ public interface Material {
 	 * incident direction, and returns the BRDF value, the direction, and the 
 	 * probability density (stored in a {@link ShadingSample}). 
 	 */
+	
+	public float getRefractiveIndex();
+	
 	public ShadingSample getShadingSample(HitRecord hitRecord, float[] sample);
 
 	/**

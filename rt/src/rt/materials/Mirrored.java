@@ -11,6 +11,8 @@ public class Mirrored implements Material {
 
 	Spectrum kd;
 	
+	
+	
 	/**
 	 * Note that the parameter value {@param kd} is the mirrored reflectance,
 	 * which should be in the range [0,1], a value of 1 meaning all light
@@ -65,6 +67,10 @@ public class Mirrored implements Material {
 		return sample;
 	}
 	
+	public float getRefractiveIndex() {
+		return 0.f;                           //Returns 0 for no refraction
+	}
+	
 	// To be implemented for path tracer!
 	public ShadingSample getShadingSample(HitRecord hitRecord, float[] sample)
 	{
@@ -83,5 +89,8 @@ public class Mirrored implements Material {
 	public ShadingSample getEmissionSample(HitRecord hitRecord, float[] sample) {
 		return new ShadingSample();
 	}
+
+
+	
 	
 }

@@ -84,6 +84,11 @@ public class PointLightMaterial implements Material {
 	public ShadingSample evaluateSpecularRefraction(HitRecord hitRecord) {
 		return null;
 	}
+	
+	public float getRefractiveIndex() {
+		return 0.f;                           //Returns 0 for no refraction
+	}
+	
 
 
 }

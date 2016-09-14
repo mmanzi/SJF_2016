@@ -56,18 +56,7 @@ public class Sphere implements Intersectable {
 		
 		float t1 = (-b + (float)Math.sqrt(root)) / (2*a);
 		float t2 = (-b - (float)Math.sqrt(root)) / (2*a);
-		if(t1 <= t2) {
-			Point3f position = r.pointAt(t1);
-			
-			Vector3f wIn = new Vector3f(r.direction);
-			wIn.negate();
-			wIn.normalize();
-			
-			Vector3f normal = new Vector3f(position.x - ce.x,position.y - ce.y,position.z - ce.z);
-			normal.normalize();
-			
-			return new HitRecord(t1, position, normal, wIn, this, material, 0.f, 0.f);		
-		} else {
+		if(t2 <= t1 && t2>eps) {
 			Point3f position = r.pointAt(t2);
 			
 			Vector3f wIn = new Vector3f(r.direction);
@@ -78,7 +67,19 @@ public class Sphere implements Intersectable {
 			normal.normalize();
 			
 			return new HitRecord(t2, position, normal, wIn, this, material, 0.f, 0.f);	
-		}
+		}else if( t1>eps) {
+			Point3f position = r.pointAt(t1);
+			
+			Vector3f wIn = new Vector3f(r.direction);
+			wIn.negate();
+			wIn.normalize();
+			
+			Vector3f normal = new Vector3f(position.x - ce.x,position.y - ce.y,position.z - ce.z);
+			normal.normalize();
+			
+			return new HitRecord(t1, position, normal, wIn, this, material, 0.f, 0.f);		
+		} 
+		return null;
 	}
 	
 	public AxisAlignedBox getBoundingBox()
