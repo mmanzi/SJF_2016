@@ -11,6 +11,7 @@ import rt.Ray;
 import rt.Sampler;
 import rt.Scene;
 import rt.Spectrum;
+import rt.materials.*;
 
 /**
  * Integrator for Whitted style ray tracing. This is a basic version that needs to be extended!
@@ -171,6 +172,18 @@ public class WhittedIntegrator implements Integrator {
 					HitRecord lightHit = lightList.get(i).sample(null);
 					Point3f lp = lightHit.position;
 	
+					Vector3f direction = new Vector3f(hitRecord.position);
+					direction.sub(lightHit.position);
+					Ray rshadowRay = new Ray(hitRecord.position, direction);
+					rshadowRay.direction.normalize();
+					rshadowRay.direction.negate();
+					//rshadowRay.origin.negate();
+					HitRecord ShadowhitRecord = root.intersect(rshadowRay);
+					if(ShadowhitRecord != null) {
+						if(ShadowhitRecord.t <= hitRecord.position.distance(lightHit.position) && !ShadowhitRecord.intersectable.equals(hitRecord.intersectable)
+								&& (hitRecord.material.getClass().equals(Schlick.class) || hitRecord.material.getClass().equals(Refractive.class)))
+								continue;
+					}
 					
 					Vector3f wOut = new Vector3f(
 							hitRecord.position.x - lp.x, 
