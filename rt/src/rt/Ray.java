@@ -14,6 +14,7 @@ public class Ray {
 	public int bounces;
 	private Stack<Float> refractive_index;
 	
+	
 	public Ray(Point3f origin, Vector3f direction)
 	{
 		this.origin = new Point3f(origin); 
