@@ -61,7 +61,11 @@ public class Diffuse implements Material {
 	{
 		return false;
 	}
-
+	public boolean hasTheThing()
+	{
+		return false;
+	}
+	
 	public ShadingSample evaluateSpecularRefraction(HitRecord hitRecord)
 	{
 		return null;

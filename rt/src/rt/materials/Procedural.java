@@ -84,9 +84,6 @@ public class Procedural implements Material {
 		int y = Math.floorMod((int)py, GridY);
 		int z = Math.floorMod((int)pz, GridZ);
 
-		int test = Math.floorMod(-1, 4);
-	//	int x = px < 0 ? (GridX - 1) - Math.floorMod((int)(px * scale), (GridX - 1))-1 : Math.floorMod((int)(px * scale), (GridX - 1));
-	//	int y = py < 0 ? (GridY - 1) - Math.floorMod((int)(py * scale), (GridY - 1))-1 : Math.floorMod((int)(py * scale), (GridY - 1));
 		
 		float x_value = px - (int)px; 	
 		float y_value = py - (int)py; 
@@ -101,10 +98,10 @@ public class Procedural implements Material {
 		ecken[1] = perlNoiseGrid[x==GridX-1 ? 0 : x+1][y][z];
 		ecken[2] = perlNoiseGrid[x][y==GridY-1 ? 0 : y+1][z];
 		ecken[3] = perlNoiseGrid[x==GridX-1 ? 0 : x+1][y==GridY-1 ? 0 : y+1][z];
-		ecken[0] = perlNoiseGrid[x][y][z+1==GridZ ? 0 : z+1];
-		ecken[1] = perlNoiseGrid[x==GridX-1 ? 0 : x+1][y][z+1==GridZ ? 0 : z+1];
-		ecken[2] = perlNoiseGrid[x][y==GridY-1 ? 0 : y+1][z+1==GridZ ? 0 : z+1];
-		ecken[3] = perlNoiseGrid[x==GridX-1 ? 0 : x+1][y==GridY-1 ? 0 : y+1][z+1==GridZ ? 0 : z+1];
+		ecken[4] = perlNoiseGrid[x][y][z+1==GridZ ? 0 : z+1];
+		ecken[5] = perlNoiseGrid[x==GridX-1 ? 0 : x+1][y][z+1==GridZ ? 0 : z+1];
+		ecken[6] = perlNoiseGrid[x][y==GridY-1 ? 0 : y+1][z+1==GridZ ? 0 : z+1];
+		ecken[7] = perlNoiseGrid[x==GridX-1 ? 0 : x+1][y==GridY-1 ? 0 : y+1][z+1==GridZ ? 0 : z+1];
 
 		
 		float x1 = interpolate(ecken[0], ecken[1], x_value);

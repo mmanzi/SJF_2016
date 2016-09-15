@@ -16,6 +16,7 @@ public abstract class Scene {
 	protected Tonemapper tonemapper;
 	protected Intersectable root;
 	protected LightList lightList;
+	protected ProceduralGrid proceduralGrid;
 	
 	public IntegratorFactory getIntegratorFactory() {
 		return integratorFactory;
@@ -57,6 +58,10 @@ public abstract class Scene {
 	
 	public void prepare()
 	{
+	}
+	
+	public ProceduralGrid getGrid(){
+		return proceduralGrid;
 	}
 
 }
