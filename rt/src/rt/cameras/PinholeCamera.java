@@ -22,6 +22,8 @@ public class PinholeCamera implements Camera {
 
 	private Point3f e;
 	
+	
+	
 	public PinholeCamera(Point3f eye, Point3f lookAt, Vector3f up, 
 			float fov, float aspect, int width, int height) {
 		

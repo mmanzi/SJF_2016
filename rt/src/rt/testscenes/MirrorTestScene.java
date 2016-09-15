@@ -26,6 +26,12 @@ public class MirrorTestScene extends Scene {
 
 	public IntersectableList objects;
 
+	private Point3f CalculateLookAt(Point3f origin, Point3f lookAt) 
+	{
+		Point3f rtn = new Point3f();
+		rtn.sub(lookAt, origin);
+		return rtn;
+	}
 	/**
 	 * Timing: 8.5 sec on 12 core Xeon 2.5GHz, 24 threads
 	 */
@@ -43,9 +49,10 @@ public class MirrorTestScene extends Scene {
 		samplerFactory = new GridSamplerFactory();
 		
 		// Make camera and film
-		Point3f eye = new Point3f(0.f,0.0f,9.f);
+		Point3f eye = new Point3f(0.f,0.f,9.f);
+		//Point3f lookAt = CalculateLookAt(eye, new Point3f(0.f,0.f,0.f));
 		Point3f lookAt = new Point3f(0.f,0.f,0.f);
-		Vector3f up = new Vector3f(0.f,1.f,0.f);
+		Vector3f up = new Vector3f(0.f,1f,-1.f);
 		float fov = 120.f;
 		int width = 512;
 		int height = 512;
@@ -58,7 +65,7 @@ public class MirrorTestScene extends Scene {
 		objects = new IntersectableList();	
 				
 		// Box
-		Plane plane = new Plane(new Vector3f(0.f, 1.f, 0.f), 1.f);
+		Plane plane = new Plane(new Vector3f(0.f, 1.f, 0.f), 10.f);
 		plane.material = new Diffuse(new Spectrum(0.f, 0.8f, 0.8f));
 		objects.add(plane);		
 		
@@ -80,7 +87,7 @@ public class MirrorTestScene extends Scene {
 		
 		plane = new Plane(new Vector3f(0.f, 0.f, -1.f), 10.f);
 		plane.material = new Diffuse(new Spectrum(100.8f, 0.8f, 0.8f));
-		objects.add(plane);
+	//	objects.add(plane);
 		
 		// Add objects
 		Mesh mesh;
@@ -88,7 +95,7 @@ public class MirrorTestScene extends Scene {
 		{
 			
 			mesh = ObjReader.read("../obj/teapot.obj", 0.7f);
-			mesh.material=new Refractive(new Spectrum(1.f,0.5f,0.5f), 1.5f);
+			mesh.material=new Schlick(new Spectrum(1.f,0.5f,0.5f), 1.5f);
 		} catch(IOException e) 
 		{
 			System.out.printf("Could not read .obj file\n");
