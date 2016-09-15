@@ -21,7 +21,7 @@ public class WhittedIntegrator implements Integrator {
 	Intersectable root;
 	Scene scene;
 	
-	private static final int MAX_BOUNCES = 5;
+	private static final int MAX_BOUNCES = 6;
 	
 	public WhittedIntegrator(Scene scene)
 	{
@@ -57,13 +57,16 @@ public class WhittedIntegrator implements Integrator {
 				boolean out1 = false;
 				boolean out2 = false;
 				
+				float aspect = 0.f;
+				
+				
 				if(hitRecord.material.hasSpecularReflection() && r.bounces < WhittedIntegrator.MAX_BOUNCES){
 					
 					out1 = true;
 					
 					//Handles reflection
-					Vector3f wIn = hitRecord.w;
-					Vector3f n = hitRecord.normal;
+					Vector3f wIn = new Vector3f(hitRecord.w);
+					Vector3f n = new Vector3f(hitRecord.normal);
 					Vector3f wOut = new Vector3f();
 					
 					wIn.negate();
@@ -93,16 +96,13 @@ public class WhittedIntegrator implements Integrator {
 					
 					double alpha1 = Math.acos(wIn.dot(n));
 					
-					//float n1 = 1.f;
-					//float n2 = 1.5f;
 					
-					float aspect = 1;
 					float n1 = 0; 
 					float n2 = 0;
 					
 					
 					if(alpha1 < Math.toRadians(90)){  //Entering material
-						n1 = 1.f;
+						n1 = r.popStack();
 						n2 = hitRecord.material.getRefractiveIndex();
 						r.pushStack(n2);
 
@@ -147,16 +147,25 @@ public class WhittedIntegrator implements Integrator {
 					r2.bounces = r.bounces+1;
 					outgoing2 = new Spectrum(hitRecord.material.evaluateSpecularRefraction(hitRecord).brdf);
 					outgoing2.mult(integrate(r2));
-					
 				}
 				
+				//outgoing =  outgoing2;
+				
 				if(out1 && out2){
-					outgoing = new Spectrum((outgoing1.r + outgoing2.r) /2, (outgoing1.g + outgoing2.g) / 2, (outgoing1.b + outgoing2.b) / 2);
+					
+					float tmp = (float) (Math.pow((1.f-aspect), 2)/Math.pow(1.f+aspect, 2));
+					
+					float ratio = .5f; //1 = all reflected, 0 = all refracted
+	
+					outgoing = new Spectrum(ratio*outgoing1.r + (1-ratio)*outgoing2.r, 
+											ratio*outgoing1.g + (1-ratio)*outgoing2.g, 
+											ratio*outgoing1.b + (1-ratio)*outgoing2.b);
 				}else if(out1){
 					outgoing = outgoing1;
 				}else if(out2){
-					outgoing = outgoing2;
+					outgoing = outgoing1;
 				}
+				
 			}else if(r.bounces < WhittedIntegrator.MAX_BOUNCES){
 				
 				//if hitPosition.material.isSpecularReflective() && r.bounce<threshold

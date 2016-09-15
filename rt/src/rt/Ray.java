@@ -20,6 +20,7 @@ public class Ray {
 		this.direction = new Vector3f(direction);
 		this.bounces = 0;
 		refractive_index = new Stack<Float>();
+		refractive_index.push(1.f);
 		
 	}
 	

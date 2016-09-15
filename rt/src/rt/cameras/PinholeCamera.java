@@ -69,7 +69,7 @@ public class PinholeCamera implements Camera {
 		t = (float) Math.tan((double)Math.toRadians(fov)/2.f);
 		r = aspect*t;
 		
-		m.invert();
+		//m.invert();
 		
 		// TODO: Use parameters passed to create camera matrix.  -- Done
 	}
@@ -99,7 +99,7 @@ public class PinholeCamera implements Camera {
 		Ray ray = new Ray(e, new Vector3f(sum.x, sum.y, sum.z));
 		*/
 		
-		Vector4f s = new Vector4f(u,v,-1,1);
+		Vector4f s = new Vector4f(u,v,-1,0);
 		m.transform(s);
 		s.normalize();
 		Ray ray = new Ray(e, new Vector3f(s.x, s.y, s.z));

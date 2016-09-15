@@ -40,7 +40,7 @@ public class MirrorTestScene extends Scene {
 		outputFilename = new String("../output/testscenes/teapotShadow");
 		
 		// Specify integrator to be used
-		integratorFactory = new WhittedShadowIntegratorFactory();
+		integratorFactory = new WhittedIntegratorFactory();
 		
 		// Specify pixel sampler to be used
 		//samplerFactory = new OneSamplerFactory();
@@ -49,11 +49,11 @@ public class MirrorTestScene extends Scene {
 		samplerFactory = new GridSamplerFactory();
 		
 		// Make camera and film
-		Point3f eye = new Point3f(0.f,0.f,9.f);
+		Point3f eye = new Point3f(0.f,0.5f,1.f);
 		//Point3f lookAt = CalculateLookAt(eye, new Point3f(0.f,0.f,0.f));
 		Point3f lookAt = new Point3f(0.f,0.f,0.f);
-		Vector3f up = new Vector3f(0.f,1f,-1.f);
-		float fov = 120.f;
+		Vector3f up = new Vector3f(0.f,1f,0.f);
+		float fov = 90.f;
 		int width = 512;
 		int height = 512;
 		float aspect = (float)width/(float)height;
@@ -65,7 +65,7 @@ public class MirrorTestScene extends Scene {
 		objects = new IntersectableList();	
 				
 		// Box
-		Plane plane = new Plane(new Vector3f(0.f, 1.f, 0.f), 10.f);
+		Plane plane = new Plane(new Vector3f(0.f, 1.f, 0.f), 1.f);
 		plane.material = new Diffuse(new Spectrum(0.f, 0.8f, 0.8f));
 		objects.add(plane);		
 		
