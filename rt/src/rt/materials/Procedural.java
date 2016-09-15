@@ -22,7 +22,8 @@ public class Procedural implements Material {
 	int scale_grid = 5;
 	static int GridX = 200;
 	static int GridY = 200;
-	float[][] perlNoiseGrid = new float[GridX][GridY]; 
+	static int GridZ = 200;
+	float[][][] perlNoiseGrid = new float[GridX][GridY][GridZ]; 
 	int loopcount = 1;
 	int initialValue = 1;
 	
@@ -56,7 +57,9 @@ public class Procedural implements Material {
 		
 		for(int i = 0; i < GridX; i++) {
 			for(int j = 0; j < GridY; j++) {
-				perlNoiseGrid[i][j] = (float)rnd.nextFloat();
+				for(int k = 0; k < GridZ; k++) {
+					perlNoiseGrid[i][j][k] = (float)rnd.nextFloat();
+				}
 			}
 		}
 	}
@@ -75,9 +78,11 @@ public class Procedural implements Material {
 		
 		float px = (pos.x+10000) * scale;
 		float py = (pos.y+10000) * scale;
+		float pz = (pos.z+10000) * scale;
 		
 		int x = Math.floorMod((int)px, GridX);
 		int y = Math.floorMod((int)py, GridY);
+		int z = Math.floorMod((int)pz, GridZ);
 
 		int test = Math.floorMod(-1, 4);
 	//	int x = px < 0 ? (GridX - 1) - Math.floorMod((int)(px * scale), (GridX - 1))-1 : Math.floorMod((int)(px * scale), (GridX - 1));
@@ -85,22 +90,32 @@ public class Procedural implements Material {
 		
 		float x_value = px - (int)px; 	
 		float y_value = py - (int)py; 
+		float z_value = pz - (int)pz;
 
 		x_value = px<0 ? 1.f-x_value : x_value;
 		y_value = py<0 ? 1.f-y_value : y_value;
+		z_value = pz<0 ? 1.f-z_value : z_value;
 		
-		float[] ecken = new float[4];
-		ecken[0] = perlNoiseGrid[x][y];
-		ecken[1] = perlNoiseGrid[x==GridX-1 ? 0 : x+1][y];
-		ecken[2] = perlNoiseGrid[x][y==GridY-1 ? 0 : y+1];
-		ecken[3] = perlNoiseGrid[x==GridX-1 ? 0 : x+1][y==GridY-1 ? 0 : y+1];
+		float[] ecken = new float[8];
+		ecken[0] = perlNoiseGrid[x][y][z];
+		ecken[1] = perlNoiseGrid[x==GridX-1 ? 0 : x+1][y][z];
+		ecken[2] = perlNoiseGrid[x][y==GridY-1 ? 0 : y+1][z];
+		ecken[3] = perlNoiseGrid[x==GridX-1 ? 0 : x+1][y==GridY-1 ? 0 : y+1][z];
+		ecken[0] = perlNoiseGrid[x][y][z+1==GridZ ? 0 : z+1];
+		ecken[1] = perlNoiseGrid[x==GridX-1 ? 0 : x+1][y][z+1==GridZ ? 0 : z+1];
+		ecken[2] = perlNoiseGrid[x][y==GridY-1 ? 0 : y+1][z+1==GridZ ? 0 : z+1];
+		ecken[3] = perlNoiseGrid[x==GridX-1 ? 0 : x+1][y==GridY-1 ? 0 : y+1][z+1==GridZ ? 0 : z+1];
 
 		
 		float x1 = interpolate(ecken[0], ecken[1], x_value);
-		float x2 = interpolate(ecken[2], ecken[3], x_value);	
+		float x2 = interpolate(ecken[2], ecken[3], x_value);
+		float x3 = interpolate(ecken[4], ecken[5], x_value);
+		float x4 = interpolate(ecken[6], ecken[7], x_value);
 		float y1 = interpolate(x1, x2, y_value);
+		float y2 = interpolate(x3, x4, y_value);
+		float z1 = interpolate(y1, y2, z_value);
 		
-		return (float)y1;
+		return (float)z1;
 	}
 	
 	private float interpolate(float n1, float n2, float val)
@@ -151,9 +166,10 @@ public class Procedural implements Material {
 			float test = (float)(Math.sin(rand1)+Math.sin(rand2)/2.f+Math.sin(rand3)/4.f+Math.sin(rand4)/8.f);
 			*/
 			
-			//kdr.mult(value);
+			/*kdr.mult(value);
 			float test = interpolate(0, 1, value);
-			kdr.mult(new Spectrum(test, test, test));
+			kdr.mult(new Spectrum(test, test, test));*/
+			kdr.mult(new Spectrum((((interpolate(0,50,value) - 0) / (80 - 0)) * (1 - 0) + 0), (((interpolate(0,20,value) - 0) / (80 - 0)) * (1 - 0) + 0), (((30 - 0) / (256 - 0)) * (1 - 0) + 0)));
 		}
 		kdr.mult(ndo);
 		return new Spectrum(kdr);
