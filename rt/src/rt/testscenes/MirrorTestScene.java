@@ -94,7 +94,7 @@ public class MirrorTestScene extends Scene {
 		try
 		{
 			
-			mesh = ObjReader.read("../obj/teapot.obj", 0.7f);
+			mesh = ObjReader.read("../obj/LibertStatue.obj", 0.7f);
 			mesh.material=new Schlick(new Spectrum(1.f,0.5f,0.5f), 1.5f);
 		} catch(IOException e) 
 		{

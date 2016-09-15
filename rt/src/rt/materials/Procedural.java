@@ -157,6 +157,8 @@ public class Procedural implements Material {
 			
 			//value = Math.max(0.f,value);
 			value = Math.abs(value);
+			value = value*3.f - (int)(value*3.f);
+			
 			/*
 			float rand1 = returnRandomValue(hitRecord.position, 5.f);
 			float rand2 = returnRandomValue(hitRecord.position, 10.f);
@@ -169,7 +171,7 @@ public class Procedural implements Material {
 			/*kdr.mult(value);
 			float test = interpolate(0, 1, value);
 			kdr.mult(new Spectrum(test, test, test));*/
-			kdr.mult(new Spectrum((((interpolate(0,50,value) - 0) / (80 - 0)) * (1 - 0) + 0), (((interpolate(0,20,value) - 0) / (80 - 0)) * (1 - 0) + 0), (((30 - 0) / (256 - 0)) * (1 - 0) + 0)));
+			kdr.mult(new Spectrum((((interpolate(0,50,value) - 0) / (80 - 0)) * (1 - 0) + 0), (((interpolate(0,30,value) - 0) / (80 - 0)) * (1 - 0) + 0), (((30 - 0) / (256 - 0)) * (1 - 0) + 0)));
 		}
 		kdr.mult(ndo);
 		return new Spectrum(kdr);
@@ -188,6 +190,10 @@ public class Procedural implements Material {
 	{
 		return false;
 	}
+	public boolean hasTheThing()
+	{
+		return true;
+	}
 
 	public ShadingSample evaluateSpecularRefraction(HitRecord hitRecord)
 	{
@@ -197,7 +203,6 @@ public class Procedural implements Material {
 	public float getRefractiveIndex() {
 		return 0.f;                           //Returns 0 for no refraction
 	}
-	
 	
 	// To be implemented for path tracer!
 	public ShadingSample getShadingSample(HitRecord hitRecord, float[] sample)

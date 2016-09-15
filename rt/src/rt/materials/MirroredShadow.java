@@ -39,7 +39,7 @@ public class MirroredShadow implements Material {
 	 **/
 	public MirroredShadow()
 	{
-		this(new Spectrum(1.f, 1.f, 1.f), new Spectrum(1.f, 1.f, 1.f), new Spectrum(0.f, 0.f, 0.f), 64);
+		this(new Spectrum(0.f, 1.f, 0.f), new Spectrum(0.f, 1.f, 0.f), new Spectrum(0.f, 1.f, 0.f), 64);
 	}
 
 	/**
@@ -89,6 +89,10 @@ public class MirroredShadow implements Material {
 		ShadingSample sample = new ShadingSample();
 		sample.brdf = new Spectrum(1.f,1.f,1.f);
 		return sample;
+	}
+	public boolean hasTheThing()
+	{
+		return true;
 	}
 	
 	// To be implemented for path tracer!
