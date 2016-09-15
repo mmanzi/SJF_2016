@@ -21,7 +21,7 @@ public class WhittedIntegrator implements Integrator {
 	Intersectable root;
 	Scene scene;
 	
-	private static final int MAX_BOUNCES = 6;
+	private static final int MAX_BOUNCES = 4;
 	
 	public WhittedIntegrator(Scene scene)
 	{
@@ -57,8 +57,11 @@ public class WhittedIntegrator implements Integrator {
 				boolean out1 = false;
 				boolean out2 = false;
 				
-				float aspect = 0.f;
+				float n1 = 1.f;
+				float n2 = 1.3f;
 				
+				Vector3f normalV = null;
+				Vector3f inputV = null;
 				
 				if(hitRecord.material.hasSpecularReflection() && r.bounces < WhittedIntegrator.MAX_BOUNCES){
 					
@@ -89,6 +92,8 @@ public class WhittedIntegrator implements Integrator {
 					Vector3f n = new Vector3f(hitRecord.normal);	//The normal direction
 					Vector3f wOut = new Vector3f(); //Output ray direction
 					
+					normalV = new Vector3f(n);
+					inputV = new Vector3f(wIn);
 					
 					//Calculate if the normal and input are in the same side of material
 					wIn.normalize();
@@ -97,8 +102,8 @@ public class WhittedIntegrator implements Integrator {
 					double alpha1 = Math.acos(wIn.dot(n));
 					
 					
-					float n1 = 0; 
-					float n2 = 0;
+					n1 = 0; 
+					n2 = 0;
 					
 					
 					if(alpha1 < Math.toRadians(90)){  //Entering material
@@ -112,11 +117,12 @@ public class WhittedIntegrator implements Integrator {
 						n2 = 1.f;
 						r.pushStack(n2);
 						n.negate();
+						normalV.negate();
 						alpha1 = Math.acos(wIn.dot(n));
 					}
 					
 					
-					aspect = n1/n2;
+					float aspect = n1/n2;
 					
 					/*if(alpha1 <= Math.toRadians(90)){
 						n1 = 1.f;
@@ -147,16 +153,24 @@ public class WhittedIntegrator implements Integrator {
 					r2.bounces = r.bounces+1;
 					outgoing2 = new Spectrum(hitRecord.material.evaluateSpecularRefraction(hitRecord).brdf);
 					outgoing2.mult(integrate(r2));
+					
+					
 				}
 				
 				//outgoing =  outgoing2;
 				
 				if(out1 && out2){
 					
-					float tmp = (float) (Math.pow((1.f-aspect), 2)/Math.pow(1.f+aspect, 2));
+					float tmp = (float) (Math.pow((n1-n2)/(n1+n2),2));
 					
-					float ratio = .5f; //1 = all reflected, 0 = all refracted
-	
+					float ratio = (float) (tmp + (1.f - tmp)* (Math.pow((1.f-(normalV.dot(inputV))), 5))); //1 = all reflected, 0 = all refracted
+					
+					if(tmp != 0){
+						float dsjgdj = 237;
+						dsjgdj+=3;
+						
+					}
+					
 					outgoing = new Spectrum(ratio*outgoing1.r + (1-ratio)*outgoing2.r, 
 											ratio*outgoing1.g + (1-ratio)*outgoing2.g, 
 											ratio*outgoing1.b + (1-ratio)*outgoing2.b);
