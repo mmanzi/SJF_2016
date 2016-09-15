@@ -1,15 +1,11 @@
 package rt.integrators;
 
-import java.util.EmptyStackException;
-
-import javax.swing.JOptionPane;
 import javax.vecmath.Point3f;
 import javax.vecmath.Vector3f;
 
 import rt.HitRecord;
 import rt.Integrator;
 import rt.Intersectable;
-import rt.LightGeometry;
 import rt.LightList;
 import rt.Ray;
 import rt.Sampler;
@@ -41,7 +37,8 @@ public class WhittedIntegrator implements Integrator {
 	 */
 	
 	public Spectrum integrate(Ray r) {
-		Spectrum outgoing = new Spectrum(0.f, 0.f, 0.f);	
+			
+		Spectrum outgoing = new Spectrum(0.f, 0.f, 0.f);
 		
 		HitRecord hitRecord = root.intersect(r);
 		
@@ -49,95 +46,117 @@ public class WhittedIntegrator implements Integrator {
 			int fl = 23453;
 			fl=fl*2;
 		}
-			
+		
 		if (hitRecord != null) {
 			
-			if(hitRecord.material.hasSpecularReflection() && r.bounces < WhittedIntegrator.MAX_BOUNCES){
+			if(hitRecord.material.hasSpecularReflection() || hitRecord.material.hasSpecularRefraction()){
 				
-				//Handles reflection
-				Vector3f wIn = hitRecord.w;
-				Vector3f n = hitRecord.normal;
-				Vector3f wOut = new Vector3f();
+				Spectrum outgoing1 = new Spectrum(0.f, 0.f, 0.f);
+				Spectrum outgoing2 = new Spectrum(0.f, 0.f, 0.f);
 				
-				wIn.negate();
+				boolean out1 = false;
+				boolean out2 = false;
 				
-				Vector3f wInTemp = new Vector3f(wIn);
-				n.scale(2*wInTemp.dot(n));
-				wOut.sub(wIn,n);
-				
-				Ray r2 = new Ray(hitRecord.position, wOut);
-				r2.bounces = r.bounces+1;
-				outgoing = new Spectrum(hitRecord.material.evaluateSpecularReflection(hitRecord).brdf);
-				outgoing.mult(integrate(r2));
-				
-			}else if(hitRecord.material.hasSpecularRefraction() && r.bounces < WhittedIntegrator.MAX_BOUNCES){
-				
-				Vector3f wIn = new Vector3f(hitRecord.w);  //The direction of the source ray-
-				Vector3f n = new Vector3f(hitRecord.normal);	//The normal direction
-				Vector3f wOut = new Vector3f(); //Output ray direction
-				
-				
-				//Calculate if the normal and input are in the same side of material
-				wIn.normalize();
-				n.normalize();
-				
-				double alpha1 = Math.acos(wIn.dot(n));
-				
-				//float n1 = 1.f;
-				//float n2 = 1.5f;
-				
-				float aspect = 1;
-				float n1 = 0; 
-				float n2 = 0;
-				
-				
-				/*if(alpha1 < Math.toRadians(90)){  //Entering material
-					n1 = r.peekStack();
-					n2 = hitRecord.material.getRefractiveIndex();
-					r.pushStack(n2);
+				if(hitRecord.material.hasSpecularReflection() && r.bounces < WhittedIntegrator.MAX_BOUNCES){
+					
+					out1 = true;
+					
+					//Handles reflection
+					Vector3f wIn = hitRecord.w;
+					Vector3f n = hitRecord.normal;
+					Vector3f wOut = new Vector3f();
+					
+					wIn.negate();
+					
+					Vector3f wInTemp = new Vector3f(wIn);
+					n.scale(2*wInTemp.dot(n));
+					wOut.sub(wIn,n);
+					
+					Ray r2 = new Ray(hitRecord.position, wOut);
+					r2.bounces = r.bounces+1;
+					outgoing1 = new Spectrum(hitRecord.material.evaluateSpecularReflection(hitRecord).brdf);
+					outgoing1.mult(integrate(r2));
+					
+				}
+				if(hitRecord.material.hasSpecularRefraction() && r.bounces < WhittedIntegrator.MAX_BOUNCES){
+					
+					out2 = true;
+					
+					Vector3f wIn = new Vector3f(hitRecord.w);  //The direction of the source ray-
+					Vector3f n = new Vector3f(hitRecord.normal);	//The normal direction
+					Vector3f wOut = new Vector3f(); //Output ray direction
+					
+					
+					//Calculate if the normal and input are in the same side of material
+					wIn.normalize();
+					n.normalize();
+					
+					double alpha1 = Math.acos(wIn.dot(n));
+					
+					//float n1 = 1.f;
+					//float n2 = 1.5f;
+					
+					float aspect = 1;
+					float n1 = 0; 
+					float n2 = 0;
+					
+					
+					if(alpha1 < Math.toRadians(90)){  //Entering material
+						n1 = 1.f;
+						n2 = hitRecord.material.getRefractiveIndex();
+						r.pushStack(n2);
 
-				}else{
+					}else{
 
-					n1 = r.popStack();
-					n2 = r.peekStack();
-
-					n.negate();
-					alpha1 = Math.acos(wIn.dot(n));
-				}*/
-				
-				
-				//aspect = n1/n2;
-				
-				if(alpha1 <= Math.toRadians(90)){
-					n1 = 1.f;
-					n2 = hitRecord.material.getRefractiveIndex();	
-					r.popStack();
-					r.pushStack(n2);
+						n1 = r.popStack();
+						n2 = 1.f;
+						r.pushStack(n2);
+						n.negate();
+						alpha1 = Math.acos(wIn.dot(n));
+					}
+					
+					
 					aspect = n1/n2;
-				}else{
-					n1 = r.popStack();
-					n2 = 1.f;
-					r.pushStack(n2);
-					n.negate();
-					aspect = n1/n2;
-					alpha1 = Math.acos(wIn.dot(n));
+					
+					/*if(alpha1 <= Math.toRadians(90)){
+						n1 = 1.f;
+						n2 = hitRecord.material.getRefractiveIndex();	
+						r.popStack();
+						r.pushStack(n2);
+						aspect = n1/n2;
+					}else{
+						n1 = r.popStack();
+						n2 = 1.f;
+						r.pushStack(n2);
+						n.negate();
+						aspect = n1/n2;
+						alpha1 = Math.acos(wIn.dot(n));
+					}*/
+					
+		
+					wIn.negate();		
+					double alpha2 = Math.asin(aspect*Math.sin(alpha1));
+					
+					wIn.scale(aspect);
+					n.scale((float) (aspect*Math.cos(alpha1)-Math.cos(alpha2)));
+					wOut.add(n, wIn);
+					wOut.normalize();
+					
+					Ray r2 = new Ray(hitRecord.position, wOut);
+					r2.copyStack(r.getStack());
+					r2.bounces = r.bounces+1;
+					outgoing2 = new Spectrum(hitRecord.material.evaluateSpecularRefraction(hitRecord).brdf);
+					outgoing2.mult(integrate(r2));
+					
 				}
 				
-	
-				wIn.negate();		
-				double alpha2 = Math.asin(aspect*Math.sin(alpha1));
-				
-				wIn.scale(aspect);
-				n.scale((float) (aspect*Math.cos(alpha1)-Math.cos(alpha2)));
-				wOut.add(n, wIn);
-				wOut.normalize();
-				
-				Ray r2 = new Ray(hitRecord.position, wOut);
-				r2.copyStack(r.getStack());
-				r2.bounces = r.bounces+1;
-				outgoing = new Spectrum(hitRecord.material.evaluateSpecularRefraction(hitRecord).brdf);
-				outgoing.mult(integrate(r2));
-				
+				if(out1 && out2){
+					outgoing = new Spectrum((outgoing1.r + outgoing2.r) /2, (outgoing1.g + outgoing2.g) / 2, (outgoing1.b + outgoing2.b) / 2);
+				}else if(out1){
+					outgoing = outgoing1;
+				}else if(out2){
+					outgoing = outgoing2;
+				}
 			}else if(r.bounces < WhittedIntegrator.MAX_BOUNCES){
 				
 				//if hitPosition.material.isSpecularReflective() && r.bounce<threshold
