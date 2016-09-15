@@ -40,7 +40,8 @@ public class MirrorTestScene extends Scene {
 		outputFilename = new String("../output/testscenes/teapotShadow");
 		
 		// Specify integrator to be used
-		integratorFactory = new WhittedIntegratorFactory();
+//		integratorFactory = new WhittedSamplingIntegratorFactory();
+		integratorFactory = new WhittedSamplingIntegratorFactory();
 		
 		// Specify pixel sampler to be used
 		//samplerFactory = new OneSamplerFactory();
@@ -95,7 +96,7 @@ public class MirrorTestScene extends Scene {
 		{
 			
 			mesh = ObjReader.read("../obj/teapot.obj", 0.7f);
-			mesh.material=new Schlick(new Spectrum(1.f,0.5f,0.5f), 1.5f);
+			mesh.material=new Schlick(new Spectrum(1.f,0.5f,0.5f), 1.3f);
 		} catch(IOException e) 
 		{
 			System.out.printf("Could not read .obj file\n");
@@ -103,7 +104,7 @@ public class MirrorTestScene extends Scene {
 		}
 		
 		Sphere s = new Sphere(new Point3f(0.f,0.0f,0f), 0.4f);
-		s.material = new Refractive(new Spectrum(0.8f, 0.8f, 0.8f), 1.3f);
+		s.material = new Schlick(new Spectrum(0.8f, 0.8f, 0.8f),1.3f);
 	//	s.material = new Diffuse(new Spectrum(0.8f, 0.8f, 0.8f));
 	//    objects.add(s);
 		

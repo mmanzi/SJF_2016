@@ -102,8 +102,8 @@ public class WhittedIntegrator implements Integrator {
 					double alpha1 = Math.acos(wIn.dot(n));
 					
 					
-					n1 = 0; 
-					n2 = 0;
+			//		n1 = 0; 
+			//		n2 = 0;
 					
 					
 					if(alpha1 < Math.toRadians(90)){  //Entering material
@@ -123,22 +123,6 @@ public class WhittedIntegrator implements Integrator {
 					
 					
 					float aspect = n1/n2;
-					
-					/*if(alpha1 <= Math.toRadians(90)){
-						n1 = 1.f;
-						n2 = hitRecord.material.getRefractiveIndex();	
-						r.popStack();
-						r.pushStack(n2);
-						aspect = n1/n2;
-					}else{
-						n1 = r.popStack();
-						n2 = 1.f;
-						r.pushStack(n2);
-						n.negate();
-						aspect = n1/n2;
-						alpha1 = Math.acos(wIn.dot(n));
-					}*/
-					
 		
 					wIn.negate();		
 					double alpha2 = Math.asin(aspect*Math.sin(alpha1));
@@ -157,19 +141,15 @@ public class WhittedIntegrator implements Integrator {
 					
 				}
 				
-				//outgoing =  outgoing2;
 				
 				if(out1 && out2){
 					
 					float tmp = (float) (Math.pow((n1-n2)/(n1+n2),2));
-					
-					float ratio = (float) (tmp + (1.f - tmp)* (Math.pow((1.f-(normalV.dot(inputV))), 5))); //1 = all reflected, 0 = all refracted
-					
-					if(tmp != 0){
-						float dsjgdj = 237;
-						dsjgdj+=3;
-						
-					}
+					float result = normalV.dot(inputV);
+					float ratio = (float) (tmp + (1.f - tmp)* (Math.pow((1.f-(result)), 5))); //1 = all reflected, 0 = all refracted
+			
+				//	if(ratio>1)
+				//		System.out.println("hsdjhjdhv");
 					
 					outgoing = new Spectrum(ratio*outgoing1.r + (1-ratio)*outgoing2.r, 
 											ratio*outgoing1.g + (1-ratio)*outgoing2.g, 
@@ -177,7 +157,7 @@ public class WhittedIntegrator implements Integrator {
 				}else if(out1){
 					outgoing = outgoing1;
 				}else if(out2){
-					outgoing = outgoing1;
+					outgoing = outgoing2;
 				}
 				
 			}else if(r.bounces < WhittedIntegrator.MAX_BOUNCES){
