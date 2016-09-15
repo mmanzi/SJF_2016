@@ -40,7 +40,7 @@ public class MirrorTestScene extends Scene {
 		outputFilename = new String("../output/testscenes/teapotShadow");
 		
 		// Specify integrator to be used
-		integratorFactory = new WhittedIntegratorFactory();
+		integratorFactory = new WhittedShadowIntegratorFactory();
 		
 		// Specify pixel sampler to be used
 		//samplerFactory = new OneSamplerFactory();
