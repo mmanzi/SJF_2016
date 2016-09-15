@@ -90,6 +90,8 @@ public interface Material {
 	 */
 	public boolean hasSpecularReflection();
 	
+	public boolean hasTheThing();
+	
 	/**
 	 * Evaluate specular reflection. This method is typically called by a recursive
 	 * ray tracer to follow the path of specular reflection.
