@@ -105,12 +105,12 @@ public class MirrorTestScene extends Scene {
 		Sphere s = new Sphere(new Point3f(0.f,0.0f,0f), 0.4f);
 		s.material = new Schlick(new Spectrum(0.8f, 0.8f, 0.8f),1.1f);
 	//	s.material = new Diffuse(new Spectrum(0.8f, 0.8f, 0.8f));
-	    objects.add(s);
+	//    objects.add(s);
 		
 		
 		
 		BSPAccelerator accel = new BSPAccelerator(mesh);
-	//	objects.add(accel);	
+		objects.add(accel);	
 	//	objects.add(mesh);	
 		
 		root = objects;

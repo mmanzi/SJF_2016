@@ -95,5 +95,13 @@ public class Schlick implements Material {
 	public ShadingSample getEmissionSample(HitRecord hitRecord, float[] sample) {
 		return new ShadingSample();
 	}
+
+
+
+	@Override
+	public boolean hasTheThing() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }
