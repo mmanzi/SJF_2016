@@ -81,6 +81,10 @@ public class Mirrored implements Material {
 	{
 		return true;
 	}
+	public boolean hasTheThing()
+	{
+		return false;
+	}
 	
 	public Spectrum evaluateEmission(HitRecord hitRecord, Vector3f wOut) {
 		return new Spectrum(0.f, 0.f, 0.f);

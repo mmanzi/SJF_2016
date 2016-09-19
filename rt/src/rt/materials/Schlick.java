@@ -87,6 +87,10 @@ public class Schlick implements Material {
 	{
 		return true;
 	}
+	public boolean hasTheThing()
+	{
+		return false;
+	}
 	
 	public Spectrum evaluateEmission(HitRecord hitRecord, Vector3f wOut) {
 		return new Spectrum(0.f, 0.f, 0.f);
@@ -96,12 +100,5 @@ public class Schlick implements Material {
 		return new ShadingSample();
 	}
 
-
-
-	@Override
-	public boolean hasTheThing() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 	
 }

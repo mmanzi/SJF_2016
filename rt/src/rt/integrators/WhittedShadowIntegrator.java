@@ -29,7 +29,7 @@ public class WhittedShadowIntegrator implements Integrator {
 	Vector3f[][][] Grid;// = new Vector3f[GridX][GridY][GridZ];
 	
 	
-	private static final int MAX_BOUNCES = 5;
+	private static final int MAX_BOUNCES = 1;
 	
 	public WhittedShadowIntegrator(Scene scene)
 	{
@@ -192,7 +192,7 @@ public class WhittedShadowIntegrator implements Integrator {
 				for(int i = 0; i < lightList.size(); i++) {
 					HitRecord lightHit = lightList.get(i).sample(null);
 					
-					Vector3f direction = new Vector3f(hitRecord.position);
+					Vector3f direction = new Vector3f(hitRecord.position);	
 					direction.sub(lightHit.position);
 					Ray rshadowRay = new Ray(hitRecord.position, direction);
 					rshadowRay.direction.normalize();

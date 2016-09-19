@@ -4,7 +4,7 @@ package rt;
  * Defines scene properties that need to be made accessible to the renderer. 
  * @param <ProceduralGrid>
  */
-public abstract class Scene<ProceduralGrid> {
+public abstract class Scene {
 
 	public String outputFilename;
 	protected int SPP;

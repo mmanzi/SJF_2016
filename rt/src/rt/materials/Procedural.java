@@ -189,7 +189,7 @@ public class Procedural implements Material {
 	}
 	public boolean hasTheThing()
 	{
-		return true;
+		return false;
 	}
 
 	public ShadingSample evaluateSpecularRefraction(HitRecord hitRecord)
